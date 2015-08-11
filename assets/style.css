@@ -17,9 +17,14 @@ header .logo-assets {
 }
 
 a {
-	color: rgb(209, 75, 45);
+	color: #77b49e;
 	font-weight: 500;
 	font-size: 18px;
+}
+
+h1 {
+    border-bottom: 4px solid #d26925;
+    margin-bottom: 20px;
 }
 
 .regular-button {
@@ -61,6 +66,7 @@ form.form-horizontal .control-label {
 
 .content-top {
     margin-top: 40px;
+    margin-bottom: 20px;
 }
 
 .centering {
