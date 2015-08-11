@@ -22,7 +22,7 @@ a {
 	font-size: 18px;
 }
 
-button {
+.regular-button {
     border-style: solid;
     border-width: 2px;
     border-color: rgb(209, 75, 45);
