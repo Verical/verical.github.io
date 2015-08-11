@@ -1,0 +1,69 @@
+body {
+    margin: 0;
+    background-color: #fbf3e1;
+}
+
+header {
+    background: linear-gradient( to bottom, #76b29e, #76b29e 20%, #72301e 20%, #72301e 38%, #d14b2d 38%, #d14b2d 56%, #d36a2b 56%, #d36a2b 74%, #d8a521 74%, #d8a521 92%, #76b29e 92%);
+    height: 180px;
+}
+
+header .logo-assets-container {
+    text-align: center;
+}
+
+header .logo-assets {
+    padding-top: 50px;
+}
+
+a {
+	color: rgb(209, 75, 45);
+	font-weight: 500;
+	font-size: 18px;
+}
+
+button {
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(209, 75, 45);
+    border-radius: 10px;
+    background-color: rgb(216, 165, 33);
+    height: 40px;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    font-weight: 500;
+}
+
+form {
+	max-width: 300px;
+}
+
+form.form-horizontal .control-label {
+	color: rgb(209, 75, 45);
+}
+
+.large-button {
+    border-style: solid;
+    border-width: 4px;
+    border-color: rgb(209, 75, 45);
+    border-radius: 10px;
+    background-color: rgb(216, 165, 33);
+    width: 344px;
+    height: 85px;
+    font-size: 36px;
+    color: #fff;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+.content-top {
+    margin-top: 40px;
+}
+
+.centering {
+    display: table;
+    margin: 0 auto;
+}
