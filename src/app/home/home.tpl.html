@@ -27,72 +27,153 @@
     </nav>
     <div class="row">
         <h1>Introduction</h1>
-        
+        <div class="intro">ngDropover is a feature-rich solution for dropdowns, popovers, tooltips, toasters, or any other time you need a trigger or triggers to hide-show an element. The only dependency is AngularJS and your imagination!</div>
+        <h2>ngDropover allows you to...</h2>
+        <div class="col-sm-6">
+            <li>Open and close the dropover programmatically</li>
+            <li>Easily create multiple triggers</li>
+            <li>Close dropover when clicking outside directive</li>
+            <li>Close other dropovers when opening</li>
+        </div>
+        <div class="col-sm-6">
+            <ul>
+                <li>Offset horizontally and vertically</li>
+                <li>bottom-left</li>
+                <li>bottom-center</li>
+                <li>bottom-right</li>
+                <li>top-left</li>
+                <li>top-center</li>
+                <li>top-right</li>
+                <li>left-bottom</li>
+                <li>left-center</li>
+                <li>left-top</li>
+                <li>right-bottom</li>
+                <li>right-center</li>
+                <li>right-top</li>
+            </ul>
+            <img src="assets/img/positioning.png">
+        </div>
+        <ul>
+        </ul>
     </div>
-     <div class="row">
-        <h1>Installation</h1>
-        
-    </div>
-    <div class="row">
-        <h1>Options Playground</h1>
-        <div class="col-sm-5">
-            <form class="form-horizontal" role="form" method="POST" novalidate autocomplete="off">
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">Form Label:</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control">
+</div>
+<div class="row">
+    <h1>Getting Started</h1>
+    <div>Installation is easy as UI Bootstrap has minimal dependencies - only the AngularJS and Twitter Bootstrap's CSS are required. Note: Since version 0.13.0, UI Bootstrap depends on ngAnimate for transitions and animations, such as the accordion, carousel, etc. Include ngAnimate in the module dependencies for your app in order to enable animation.</div>
+    <h2>Install with NPM</h2>
+    <div class="terminal">npm install --save ngdropover</div>
+    <h2>Manual Download</h2>
+    <div>Download the lastest version here. Install the file in the right place. Add the directive dependency to the node.</div>
+    <h2>Add it to your app</h2>
+    <div class="terminal">angular.module('myApp', ['ngDropover'])</div>
+</div>
+<div class="row">
+    <h1>Options Playground</h1>
+    <div class="col-sm-5">
+        <form name="playExample" class="form-horizontal" role="form" method="POST" novalidate autocomplete="off">
+            <div class="form-group">
+                <label for="examplePosition" class="col-sm-6 control-label">Position:</label>
+                <div class="col-sm-6">
+                    <select ng-model="exampleOptions.position" class="form-control">
+                        <option>bottom-left</option>
+                        <option>bottom-center</option>
+                        <option>bottom-right</option>
+                        <option>top-left</option>
+                        <option>top-center</option>
+                        <option>top-right</option>
+                        <option>left-bottom</option>
+                        <option>left-center</option>
+                        <option>left-top</option>
+                        <option>right-bottom</option>
+                        <option>right-center</option>
+                        <option>right-top</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleOffX" class="col-sm-6 control-label">Horizontal Offset:</label>
+                <div class="col-sm-6">
+                    <input type="number" class="form-control" ng-model="exampleOptions.offsetX">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1" class="col-sm-6 control-label">Vertical Offset:</label>
+                <div class="col-sm-6">
+                    <input type="number" class="form-control" ng-model="exampleOptions.offsetY">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-6 col-sm-6">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="exampleOptions.closeOnClickOff">Close on click off
+                        </label>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-xs-4 control-label">Form Label:</label>
-                    <div class="col-xs-8">
-                        <select class="form-control">
-                            <option value="" class="option-hidden">option</option>
-                        </select>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-6 col-sm-6">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="exampleOptions.closeOnOpen">Close all others on open
+                        </label>
                     </div>
                 </div>
-                <div class="form-buttons">
-                    <div status-info class="col-sm-8 col-sm-offset-4"></div>
-                    <button type="submit" class="regular-button">Submit</button>
+            </div>
+            <div class="form-group">
+                <label for="exampleTriggerEvent" class="col-sm-6 control-label">Trigger Event:</label>
+                <div class="col-sm-6">
+                    <select ng-model="exampleOptions.triggerEvent" class="form-control">
+                        <option value="click">Click</option>
+                        <option value="hover">Hover</option>
+                        <option value="focus">Focus</option>
+                    </select>
                 </div>
-            </form>
-        </div>
-        <div class="col-sm-7">
-            <div class="playground-result">
-                <button class="regular-button">Target Button</button>
-            </div> 
+            </div>
+        </form>
+    </div>
+    <div class="col-sm-7">
+        <div class="playground-result">
+            <button class="regular-button" ng-dropover="playground" ng-dropover-options="{{exampleOptions}}">
+                <div>This is the Target</div>
+                <div class="dropover" ng-dropover-contents>
+                    <div>Dropover</div>
+                    <div>Contents</div>
+                </div>
+            </button>
         </div>
     </div>
-    <div class="row">
-        <h1>Most Basic Implementation</h1>
-        <div class="col-sm-5">
-            <p><code>$modal</code> is a service to quickly create AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.</p>
-            <p>The <code>$modal</code> service has only one method: <code>open(options)</code> where available options are like follows:</p>
-            <ul>
-                <li><code>templateUrl</code> - a path to a template representing modal's content</li>
-                <li><code>template</code> - inline template representing the modal's content</li>
-                <li><code>scope</code> - a scope instance to be used for the modal's content (actually the <code>$modal</code> service is going to create a child scope of a provided scope). Defaults to <code>$rootScope</code></li>
-                <li><code>controller</code> - a controller for a modal instance - it can initialize scope used by modal. Accepts the "controller-as" syntax in the form 'SomeCtrl as myctrl'; can be injected with <code>$modalInstance</code></li>
-            </ul>
-        </div>
-        <div class="col-sm-7">
-            <p data-height="257" data-theme-id="17783" data-slug-hash="XbOVLd" data-default-tab="result" data-user="santhony7" class='codepen'>See the Pen <a href='http://codepen.io/santhony7/pen/XbOVLd/'>ngDropover - Simple</a> by Tony Smith (<a href='http://codepen.io/santhony7'>@santhony7</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
-        </div>
+</div>
+<div class="row">
+    <h1>Most Basic Implementation</h1>
+    <div class="col-sm-5">
+        <p><code>$modal</code> is a service to quickly create AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.</p>
+        <p>The <code>$modal</code> service has only one method: <code>open(options)</code> where available options are like follows:</p>
+        <ul>
+            <li><code>templateUrl</code> - a path to a template representing modal's content</li>
+            <li><code>template</code> - inline template representing the modal's content</li>
+            <li><code>scope</code> - a scope instance to be used for the modal's content (actually the <code>$modal</code> service is going to create a child scope of a provided scope). Defaults to <code>$rootScope</code></li>
+            <li><code>controller</code> - a controller for a modal instance - it can initialize scope used by modal. Accepts the "controller-as" syntax in the form 'SomeCtrl as myctrl'; can be injected with <code>$modalInstance</code></li>
+        </ul>
     </div>
-    <div class="row">
-        <h1>Most Basic Implementation</h1>
-        <div class="col-sm-5">
-            <p><code>$modal</code> is a service to quickly create AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.</p>
-            <p>The <code>$modal</code> service has only one method: <code>open(options)</code> where available options are like follows:</p>
-            <ul>
-                <li><code>templateUrl</code> - a path to a template representing modal's content</li>
-                <li><code>template</code> - inline template representing the modal's content</li>
-                <li><code>scope</code> - a scope instance to be used for the modal's content (actually the <code>$modal</code> service is going to create a child scope of a provided scope). Defaults to <code>$rootScope</code></li>
-                <li><code>controller</code> - a controller for a modal instance - it can initialize scope used by modal. Accepts the "controller-as" syntax in the form 'SomeCtrl as myctrl'; can be injected with <code>$modalInstance</code></li>
-            </ul>
-        </div>
-        <div class="col-sm-7">
-            <p data-height="257" data-theme-id="17783" data-slug-hash="XbOVLd" data-default-tab="result" data-user="santhony7" class='codepen'>See the Pen <a href='http://codepen.io/santhony7/pen/XbOVLd/'>ngDropover - Simple</a> by Tony Smith (<a href='http://codepen.io/santhony7'>@santhony7</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
-        </div>
+    <div class="col-sm-7">
+        <p data-height="257" data-theme-id="17783" data-slug-hash="XbOVLd" data-default-tab="result" data-user="santhony7" class='codepen'>See the Pen <a href='http://codepen.io/santhony7/pen/XbOVLd/'>ngDropover - Simple</a> by Tony Smith (<a href='http://codepen.io/santhony7'>@santhony7</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
     </div>
+</div>
+<div class="row">
+    <h1>Most Basic Implementation</h1>
+    <div class="col-sm-5">
+        <p><code>$modal</code> is a service to quickly create AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.</p>
+        <p>The <code>$modal</code> service has only one method: <code>open(options)</code> where available options are like follows:</p>
+        <ul>
+            <li><code>templateUrl</code> - a path to a template representing modal's content</li>
+            <li><code>template</code> - inline template representing the modal's content</li>
+            <li><code>scope</code> - a scope instance to be used for the modal's content (actually the <code>$modal</code> service is going to create a child scope of a provided scope). Defaults to <code>$rootScope</code></li>
+            <li><code>controller</code> - a controller for a modal instance - it can initialize scope used by modal. Accepts the "controller-as" syntax in the form 'SomeCtrl as myctrl'; can be injected with <code>$modalInstance</code></li>
+        </ul>
+    </div>
+    <div class="col-sm-7">
+        <p data-height="257" data-theme-id="17783" data-slug-hash="XbOVLd" data-default-tab="result" data-user="santhony7" class='codepen'>See the Pen <a href='http://codepen.io/santhony7/pen/XbOVLd/'>ngDropover - Simple</a> by Tony Smith (<a href='http://codepen.io/santhony7'>@santhony7</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+    </div>
+</div>
 </div>
