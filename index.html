@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html ng-app="ngBoilerplate" ng-controller="AppCtrl">
+<html ng-app="verical" ng-controller="AppCtrl">
 
 <head>
     <title ng-bind="pageTitle"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- font awesome from BootstrapCDN -->
-    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <!-- Optional theme -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
     <!-- compiled CSS -->
     <link rel="stylesheet" type="text/css" href="assets/style.css" />
     <!-- compiled JavaScript -->
@@ -19,16 +15,9 @@
     <script type="text/javascript" src="vendor/angular-ui-router/release/angular-ui-router.js"></script>
     <script type="text/javascript" src="vendor/ngdropover/ngDropover-0.0.1.js"></script>
     <script type="text/javascript" src="src/app/app.js"></script>
-    <script type="text/javascript" src="src/app/home/home.js"></script>
-    <script type="text/javascript" src="src/common/plusOne/plusOne.js"></script>
+    <script type="text/javascript" src="src/app/ngDropoverPage/ngDropoverPage.js"></script>
+    <!-- JavaScript for codepens -->
     <script async src="//assets.codepen.io/assets/embed/ei.js"></script>
-    
-    <!-- it's stupid to have to load it here, but this is for the +1 button -->
-    <script type="text/javascript" src="https://apis.google.com/js/plusone.js">
-    {
-        "parsetags": "explicit"
-    }
-    </script>
 </head>
 
 <body>
@@ -36,8 +25,8 @@
         <div class="container">
             <div class="logo-assets-container">
                 <div class="logo-assets">
-                    <img src="assets/img/ngdropover-logo.png">
-                    <img src="assets/img/ngdropover-title.png">
+                    <img src="assets/img/ngdropover-logo.png" alt="ngDropover">
+                    <img src="assets/img/ngdropover-title.png" alt="ngDropover">
                 </div>
             </div>
         </div>

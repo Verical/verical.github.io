@@ -1,29 +1,25 @@
-angular.module('ngBoilerplate.home', [
-    'ui.router',
-    'plusOne'
-])
+angular.module('verical.ngDropoverPage', ['ui.router'])
 
 .config(["$stateProvider", function config($stateProvider) {
-    $stateProvider.state('home', {
-        url: '/home',
+    $stateProvider.state('ngDropoverPage', {
+        url: '/ngDropover',
         views: {
             "main": {
-                controller: 'HomeCtrl',
-                templateUrl: '/src/app/home/home.tpl.html'
+                controller: 'ngDropoverPageCtrl',
+                templateUrl: '/src/app/ngDropoverPage/ngDropoverPage.tpl.html'
             }
         },
         data: {
-            pageTitle: 'Home'
+            pageTitle: 'ngDropover'
         }
     });
 }])
 
-.controller('HomeCtrl', ["$scope", function HomeController($scope) {
+.controller('ngDropoverPageCtrl', ["$scope", function ngDropoverPageCtrl($scope) {
 
     $scope.exampleOptions = {
         'offsetX': 0,
         'offsetY': 0,
-        'wrapperClass': '',
         'closeOthersOnOpen': false,
         'trigger': "",
         'triggerEvent': "click",

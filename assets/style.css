@@ -49,6 +49,12 @@ form {}
 
 form.form-horizontal .control-label {
     color: rgb(209, 75, 45);
+    font-weight: 700;
+}
+
+form .checkbox,
+form .checkbox .control-label {
+    padding-top: 0px;
 }
 
 .large-button {
@@ -83,9 +89,17 @@ form.form-horizontal .control-label {
     border-color: rgb(209, 75, 45);
     background-color: #fff;
     height: 250px;
-    background: linear-gradient( to top, #ffffff, #ffffff 85%, #76b29e 85%, #76b29e);
+    /*background: linear-gradient( to top, #ffffff, #ffffff 85%, #76b29e 85%, #76b29e);*/
     text-align: center;
-    padding-top: 110px;
+}
+
+.playground-result .dropover-container {
+    margin-top: 100px;
+}
+
+.playground-result .options-object {
+    text-align: left;
+    margin-top: 20px;
 }
 
 .terminal {

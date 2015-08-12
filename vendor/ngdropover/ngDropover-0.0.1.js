@@ -1,5 +1,5 @@
 /**
- * ngDropover v0.0.1 - 2015-08-11
+ * ngDropover v0.0.1 - 2015-08-12
  * A custom angular directive to handle dropdowns and popovers with custom content
  *
  * Copyright (c) 2015 Ricky Sandoval <ricky.sandoval92@gmail.com> and Tony Smith <tony@naptown.com>
@@ -30,13 +30,12 @@
         })
         .constant(
             'ngDropoverConfig', {
-                'offsetX': 0,
-                'offsetY': 0,
-                'wrapperClass': '',
+                'offsetX': 0, //ToDo: change this to horizontalOffset
+                'offsetY': 0, //ToDo: change this to verticalOffset
                 'closeOthersOnOpen': true,
                 'trigger': '',
                 'triggerEvent': 'click',
-                'position': 'bottom',
+                'position': 'bottom-left',
                 'closeOnClickOff': true
             }
         )
@@ -77,7 +76,7 @@
 
                     var dropoverContents, triggerElement, handlers;
 
-                    
+
                     init();
 
                     function init() {
@@ -116,7 +115,6 @@
                         setTriggers();
                     }
 
-                    //ToDo: Add wrapperClass back? Not sure it is needed
                     function setHtml() {
                         dropoverContents = getDropoverContents();
                         elm.addClass(scope.config.wrapperClass);
@@ -167,7 +165,8 @@
                         }
                     }
 
-                    //ToDo: bottom/top-right should stay with the elm boundries I think
+                    //ToDo: bottom/top-right should stay with the elm boundries
+                    //ToDo: add class for each position; remove old class dropoverContents.addClass(scope.config.position);
                     function positionContents() {
                         var positions = $position.positionElements(elm, dropoverContents, scope.config.position, false);
                         var offX = parseInt(scope.config.offsetX, 10) || 0;
@@ -234,7 +233,7 @@
                         angular.element($window).unbind('resize', positionContents);
                     };
 
-                    scope.$on('$destroy', function(){
+                    scope.$on('$destroy', function() {
                         unsetTriggers();
                         angular.element($window).unbind('resize', positionContents);
                     });
@@ -422,6 +421,9 @@
                             return hostElPos.left;
                         },
                         right: function() {
+                            if (pos1 === "right") {
+                                return hostElPos.left + (hostElPos.width-targetElWidth);
+                            }
                             return hostElPos.left + hostElPos.width;
                         }
                     };
@@ -464,6 +466,8 @@
                             };
                             break;
                     }
+
+
 
                     return targetElPos;
                 }
