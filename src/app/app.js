@@ -1,4 +1,4 @@
-angular.module('verical', ['verical.ngDropoverPage','ui.router','ngDropover'])
+angular.module('verical', ['verical.ngDropoverPage','ui.router','embedCodepen','ngDropover'])
 
 .config(["$stateProvider", "$urlRouterProvider", function myAppConfig($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/ngDropover');
