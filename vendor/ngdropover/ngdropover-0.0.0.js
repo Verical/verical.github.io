@@ -1,5 +1,5 @@
 /**
- * ngDropover v0.0.1 - 2015-08-12
+ * ngdropover v0.0.0 - 2015-08-14
  * A custom angular directive to handle dropdowns and popovers with custom content
  *
  * Copyright (c) 2015 Ricky Sandoval <ricky.sandoval92@gmail.com> and Tony Smith <tony@naptown.com>
@@ -30,41 +30,69 @@
         })
         .constant(
             'ngDropoverConfig', {
-                'offsetX': 0, //ToDo: change this to horizontalOffset
-                'offsetY': 0, //ToDo: change this to verticalOffset
+                'horizontalOffset': 0, //ToDo: Research if this can be replaced with just a margin on the contents
+                'verticalOffset': 0,
                 'closeOthersOnOpen': true,
-                'trigger': '',
                 'triggerEvent': 'click',
                 'position': 'bottom-left',
-                'closeOnClickOff': true
+                'closeOnClickOff': true,
+                'group': ''
             }
         )
-        .factory('triggerHelper', function() {
+        .constant(
+            'positions', [
+                'bottom',
+                'bottom-left',
+                'bottom-center',
+                'bottom-right',
+                'top',
+                'top-left',
+                'top-center',
+                'top-right',
+                'left',
+                'left-bottom',
+                'left-center',
+                'left-top',
+                'right',
+                'right-bottom',
+                'right-center',
+                'right-top'
+            ]
+        )
+        .factory('triggerEventsMap', function() {
 
             var triggerMap = {
                 'mouseenter': 'mouseleave',
                 'click': 'click',
-                'focus': 'blur'
+                'focus': 'blur',
+                'none': 'none'
             };
 
             return {
-                getTriggers: function(trigger) {
-                    var show = trigger;
-                    var hide = triggerMap[show] || show;
-                    if (trigger === 'hover') {
-                        return {
-                            show: 'mouseenter',
-                            hide: 'mouseleave'
-                        };
+                getTriggers: function(triggerEvent) {
+                    if (triggerEvent === 'hover') {
+                        triggerEvent = 'mouseenter'
                     }
-                    return {
-                        show: show,
-                        hide: hide
-                    };
+
+                    if (triggerMap.hasOwnProperty(triggerEvent)) {
+                        return {
+                            'show': triggerEvent,
+                            'hide': triggerMap[triggerEvent]
+                        }
+                    }
+                    return null;
                 }
-            };
+            }
         })
-        .directive('ngDropover', function(ngDropoverConfig, $compile, $rootScope, $interval, $position, $document, $window, triggerHelper) {
+        .directive('ngDropover', function(ngDropoverConfig, positions, $rootScope, $position, $document, $window, triggerEventsMap, $timeout) {
+
+            function logError(id, element, message) {
+                console.log("∇ ngDropover Error | ID:" + id + " ∇");
+                console.log(element);
+                console.log(message);
+                console.log("");
+            }
+
             return {
                 restrict: 'A',
                 replace: true,
@@ -74,13 +102,19 @@
                 },
                 link: function(scope, elm, attrs) {
 
-                    var dropoverContents, triggerElement, handlers;
-
+                    var dropoverContents, triggerElements, handlers, transition = {
+                        duration: 0
+                    };
 
                     init();
 
                     function init() {
+
                         scope.config = angular.extend({}, ngDropoverConfig, scope.$eval(scope.ngDropoverOptions));
+                        scope.positions = positions;
+
+
+
                         setHtml();
                         handlers = {
                             toggle: function(e) {
@@ -102,101 +136,149 @@
                                     scope.close(scope.ngDropoverId);
                                 }
                             },
-                            // used if the main event is not a click, in order to mark the mouse event for the document listener
                             markEvent: function(e) {
                                 e.ngDropoverId = scope.ngDropoverId;
                             }
                         }
+
                         scope.$watch('ngDropoverOptions', function() {
                             unsetTriggers();
                             scope.config = angular.extend({}, ngDropoverConfig, scope.$eval(scope.ngDropoverOptions));
+                            if (typeof(scope.config.position) !== 'string' || scope.positions.indexOf(scope.config.position) == -1) {
+                                logError(scope.ngDropoverId, angular.element(elm), "Position must be a string and one of these values: " + scope.positions);
+                                scope.config.position = "bottom";
+                            };
                             setTriggers();
+                            positionContents();
+                            setPositionClass();
                         }, true);
-                        setTriggers();
+
+                        dropoverContents.on('click', handlers.markEvent);
+                        $document.ready(function() {
+                            positionContents();
+                        });
                     }
+
 
                     function setHtml() {
                         dropoverContents = getDropoverContents();
                         elm.addClass(scope.config.wrapperClass);
                         dropoverContents.css({
-                            'position': 'absolute',
-                            'visibility': 'hidden'
-                        }).addClass('ng-dropover-contents');
-
-                        dropoverContents.on('click', function(event) {
-                            event.ngDropoverId = scope.ngDropoverId;
-                        });
-
+                            'position': 'absolute'
+                        }).addClass('ngdo-contents');
+                        transition.event = whichTransitionEvent();
+                        transition.handler = function(event) {
+                            if (event.propertyName == "visibility") {
+                                return;
+                            }
+                            dropoverContents.css({
+                                'display': 'none'
+                            });
+                            dropoverContents[0].removeEventListener(transition.event, transition.handler);
+                        };
                     }
+
+
 
                     //Get the trigger from the config if the user set it. Otherwise the trigger will default to the scope's element
                     function setTriggers() {
-                        triggerElement = elm;
-                        if (scope.config.trigger !== "") {
-                            triggerElement = angular.element(document.querySelector(scope.config.trigger));
+
+                        var triggerObj = triggerEventsMap.getTriggers(scope.config.triggerEvent);
+
+                        if (!triggerObj) {
+                            logError(scope.ngDropoverId, angular.element(elm), "triggerEvent must be a string: 'none', 'click', 'hover', 'focus'");
+                        };
+
+                        if (triggerObj && triggerObj.show !== "none") {
+                            //If the the trigger's event to open matches the event to close, then send to the toggle method
+                            //else send to individual open and close methods
+                            if (triggerObj.show === triggerObj.hide) {
+                                elm.on(triggerObj.show, handlers.toggle);
+                            } else {
+                                elm.on(triggerObj.show, handlers.open);
+
+                                elm.on(triggerObj.hide, handlers.close);
+                            }
                         }
-                        triggerElement.addClass('ng-dropover-trigger');
-
-
-                        //If the the trigger's event to open matches the event to close, then send to the toggle method
-                        //else send to individual open and close methods
-                        var triggerObj = triggerHelper.getTriggers(scope.config.triggerEvent);
-                        if (triggerObj.show === triggerObj.hide) {
-                            triggerElement.on(triggerObj.show, handlers.toggle);
-                        } else {
-                            triggerElement.on(triggerObj.show, handlers.open);
-
-                            triggerElement.on(triggerObj.hide, handlers.close);
-
-                            triggerElement.on('click', handlers.markEvent);
-                        }
-                    }
+                    };
 
                     function unsetTriggers() {
-                        var triggerObj = triggerHelper.getTriggers(scope.config.triggerEvent);
-                        if (triggerObj.show === triggerObj.hide) {
-                            triggerElement.off(triggerObj.show, handlers.toggle);
-                        } else {
-                            triggerElement.off(triggerObj.show, handlers.open);
+                        if (triggerElements && triggerElements.length > 0) {
+                            var triggerObj = triggerEventsMap.getTriggers(scope.config.triggerEvent);
+                            for (var i = 0; i < triggerElements.length; i++) {
+                                var el = angular.element(triggerElements[i]);
+                                if (triggerObj.show === triggerObj.hide) {
+                                    el.off(triggerObj.show, handlers.toggle);
+                                } else {
+                                    el.off(triggerObj.show, handlers.open);
 
-                            triggerElement.off(triggerObj.hide, handlers.close);
-
-                            triggerElement.off('click', handlers.markEvent);
+                                    el.off(triggerObj.hide, handlers.close);
+                                }
+                            }
                         }
-                    }
+                    };
 
-                    //ToDo: bottom/top-right should stay with the elm boundries
-                    //ToDo: add class for each position; remove old class dropoverContents.addClass(scope.config.position);
                     function positionContents() {
-                        var positions = $position.positionElements(elm, dropoverContents, scope.config.position, false);
-                        var offX = parseInt(scope.config.offsetX, 10) || 0;
-                        var offY = parseInt(scope.config.offsetY, 10) || 0;
-                        dropoverContents.css('left', positions.left + offX + 'px');
-                        dropoverContents.css('top', positions.top + offY + 'px');
-                    }
+
+                        var offX, offY, positions;
+
+                        offX = parseInt(scope.config.horizontalOffset, 10) || 0;
+                        offY = parseInt(scope.config.verticalOffset, 10) || 0;
+
+                        dropoverContents.css({
+                            'visibility': 'hidden',
+                            'display': ''
+                        });
+
+                        positions = $position.positionElements(elm, dropoverContents, scope.config.position, false);
+                        dropoverContents.css({
+                            'left': positions.left + offX + 'px',
+                            'top': positions.top + offY + 'px',
+                            'display': 'none',
+                            'visibility': 'visible'
+                        });
+                    };
+
+                    function setPositionClass() {
+                        var classList = elm[0].className.split(' ');
+                        for (var i = 0, l = classList.length; i < l; i++) {
+                            var stripPrefix = classList[i].substring(5, classList[i].length);
+                            if (scope.positions.indexOf(stripPrefix) > 0) {
+                                elm.removeClass(classList[i]);
+                            }
+                        };
+                        elm.addClass('ngdo-' + scope.config.position);
+                    };
 
                     function getDropoverContents() {
                         var ret;
                         if (elm[0].querySelector('[ng-dropover-contents]')) {
-                            ret = angular.element(elm[0].querySelector('[ng-dropover-contents]'));
+                            ret = angular.element(elm[0].querySelector('[ng-dropover-contents]')).addClass(scope.config.group);
                             return ret;
                         } else {
-                            return angular.element("<div class='ng-dropover-empty'>Oops, you forgot to specify what goes in the dropdown</div>");
+
+                            ret = angular.element("<div class='ngdo-empty'>Oops, you forgot to specify what goes in the dropdown</div>").addClass(scope.config.group);
+                            elm.append(ret);
+                            return ret;
                         }
                     }
 
+                    //ToDo: Detect previous display value
                     scope.open = function(ngDropoverId) {
                         if (ngDropoverId === scope.ngDropoverId && !scope.isOpen) {
 
                             positionContents();
 
                             //start the display process and fire events
-                            dropoverContents.css('visibility', 'visible');
-                            $rootScope.$broadcast('ngDropover.opening', scope.ngDropoverId);
-                            $rootScope.$broadcast('ngDropover.opened', scope.ngDropoverId);
-                            elm.addClass('ng-dropover-open');
-                            $rootScope.$broadcast('ngDropover.rendered', scope.ngDropoverId);
-
+                            $rootScope.$broadcast('ngDropover.opening', {
+                                id: scope.ngDropoverId,
+                                element: dropoverContents[0],
+                                group: scope.config.group
+                            });
+                            dropoverContents.css({
+                                'display': 'inline-block'
+                            });
+                            elm.addClass('ngdo-open');
                             angular.element($window).bind('resize', positionContents);
 
                             scope.isOpen = true;
@@ -223,12 +305,48 @@
                         }
                     };
 
+                    function whichTransitionEvent() {
+                        var t;
+                        var el = dropoverContents[0];
+                        var transitions = {
+                            'transition': 'transitionend',
+                            'OTransition': 'oTransitionEnd',
+                            'MozTransition': 'transitionend',
+                            'webkitTransition': 'webkitTransitionEnd'
+                        };
+                        var propertyCheck = {
+                            'transition': 'transitionDuration',
+                            'OTransition': 'oTransitionDuration',
+                            'MozTransition': 'MozTransitionDuration',
+                            'webkitTransition': 'WebkitTransitionDuration'
+                        };
+
+                        for (t in transitions) {
+                            if (el.style[t] !== undefined && parseFloat($position.getStyle(el, propertyCheck[t]), 10) > 0) {
+                                transition.duration = Math.floor(parseFloat($position.getStyle(el, propertyCheck[t]), 10) * 1000);
+                                return transitions[t];
+                            }
+                        }
+                    }
+
                     function closer() {
-                        dropoverContents.css('visibility', 'hidden');
-                        $rootScope.$broadcast('ngDropover.closing', scope.ngDropoverId);
-                        $rootScope.$broadcast('ngDropover.closed', scope.ngDropoverId);
-                        elm.removeClass('ng-dropover-open');
+                        if (transition.event) {
+                            $timeout(function() {
+                                dropoverContents[0].addEventListener(transition.event, transition.handler);
+                            }, transition.duration / 2);
+                        } else {
+                            dropoverContents.css({
+                                'display': 'none'
+                            });
+                        }
+                        elm.removeClass('ngdo-open');
                         scope.isOpen = false;
+
+                        $rootScope.$broadcast('ngDropover.closing', {
+                            id: scope.ngDropoverId,
+                            element: dropoverContents[0],
+                            group: scope.config.group
+                        });
 
                         angular.element($window).unbind('resize', positionContents);
                     };
@@ -236,8 +354,8 @@
                     scope.$on('$destroy', function() {
                         unsetTriggers();
                         angular.element($window).unbind('resize', positionContents);
+                        dropoverContents.off('click', handlers.markEvent);
                     });
-
 
                 },
                 controller: [
@@ -257,12 +375,9 @@
                         });
 
                         $scope.closeAllListener = $rootScope.$on('ngDropover.closeAll', function(event, m) {
-                            if (m.ngDropoverId === $scope.ngDropoverId) {
-
-                            } else {
-                                if ($scope.config.closeOnClickOff) {
-                                    $scope.closeAll();
-                                }
+                            if (m.ngDropoverId !== $scope.ngDropoverId  && !(!$scope.config.closeOnClickOff && m.fromDocument)) {
+                                // Unless closeOnClickOff is false and the event was from the document listener
+                                $scope.closeAll();
                             }
                         });
 
@@ -283,43 +398,6 @@
                     }
                 ]
             };
-        }).directive('ngDropoverTrigger', function($rootScope, $document, triggerHelper) {
-            return {
-                restrict: 'AE',
-                link: function(scope, element, attrs) {
-                    var options = scope.$eval(attrs.ngDropoverTrigger);
-                    var triggerObj = triggerHelper.getTriggers(options.triggerEvent || 'click');
-                    element.addClass('ng-dropover-trigger');
-
-                    if (options.action === "open" || options.action === "close") {
-                        element.on(triggerObj.show, function(event) {
-                            event.ngDropoverId = options.ngDropoverId;
-                            scope.$emit('ngDropover.' + options.action, event);
-                        });
-                    } else {
-                        if (triggerObj.show === triggerObj.hide) {
-                            element.on(triggerObj.show, function(event) {
-                                event.ngDropoverId = options.ngDropoverId;
-                                scope.$emit('ngDropover.toggle', event);
-                            });
-                        } else {
-                            element.on(triggerObj.show, function(event) {
-                                event.ngDropoverId = options.ngDropoverId;
-                                scope.$emit('ngDropover.open', event);
-                            });
-
-                            element.on(triggerObj.hide, function(event) {
-                                event.ngDropoverId = options.ngDropoverId;
-                                scope.$emit('ngDropover.close', event);
-                            });
-                        }
-                    }
-                    element.on('click', function(event) {
-                        event.ngDropoverId = options.ngDropoverId;
-                    });
-                }
-            };
-
         }).factory('$position', ['$document', '$window', function($document, $window) {
 
             function getStyle(el, cssprop) {
@@ -354,6 +432,9 @@
             };
 
             return {
+
+                getStyle: getStyle,
+
                 /**
                  * Provides read-only equivalent of jQuery's position function:
                  * http://api.jquery.com/position/
@@ -370,7 +451,6 @@
                         offsetParentBCR.top += offsetParentEl.clientTop - offsetParentEl.scrollTop;
                         offsetParentBCR.left += offsetParentEl.clientLeft - offsetParentEl.scrollLeft;
                     }
-
                     var boundingClientRect = element[0].getBoundingClientRect();
                     return {
                         width: boundingClientRect.width || element.prop('offsetWidth'),
@@ -410,6 +490,11 @@
 
                     hostElPos = appendToBody ? this.offset(hostEl) : this.position(hostEl);
 
+                    if (!isStaticPositioned(hostEl[0])) {
+                        hostElPos.top = -hostEl[0].clientTop;
+                        hostElPos.left = -hostEl[0].clientLeft;
+                    }
+
                     targetElWidth = targetEl.prop('offsetWidth');
                     targetElHeight = targetEl.prop('offsetHeight');
 
@@ -422,7 +507,7 @@
                         },
                         right: function() {
                             if (pos1 === "right") {
-                                return hostElPos.left + (hostElPos.width-targetElWidth);
+                                return hostElPos.left + (hostElPos.width - targetElWidth);
                             }
                             return hostElPos.left + hostElPos.width;
                         }
@@ -474,3 +559,35 @@
             };
         }]);
 })(window, document);
+
+
+//
+//
+//  JUNK YARD
+// 
+//
+
+// Cool code for detecting CSS transition events
+
+// function whichTransitionEvent() {
+//     var t;
+//     var el = dropoverContents[0];
+//     var transitions = {
+//         'transition': 'transitionend',
+//         'OTransition': 'oTransitionEnd',
+//         'MozTransition': 'transitionend',
+//         'WebkitTransition': 'webkitTransitionEnd'
+//     }
+
+//     for (t in transitions) {
+//         if (el.style[t] !== undefined) {
+//             return transitions[t];
+//         }
+//     }
+// }
+
+// /* Listen for a transition! */
+// var transitionEvent = whichTransitionEvent();
+// transitionEvent && elm[0].addEventListener(transitionEvent, function() {
+//     console.log('Transition complete!  This is the callback, no library needed!');
+// });
