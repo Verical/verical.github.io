@@ -204,7 +204,7 @@
         </div>
     </div>
     <div class="row">
-        <h1>Attached Dropover</h1>
+        <h1>Overly Attached Dropover</h1>
         <div class="col-sm-5">
             <p><code>$modal</code> is a service to quickly create AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.</p>
             <p>The <code>$modal</code> service has only one method: <code>open(options)</code> where available options are like follows:</p>
@@ -225,6 +225,28 @@
         </div>
         <div class="col-sm-7">
             <p data-height="364" data-theme-id="17874" data-slug-hash="Nqmmav" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/Nqmmav/'>Nqmmav</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+        </div>
+    </div>
+    <div class="row">
+        <h1>Form Include</h1>
+        <div class="col-sm-5">
+            <p><code>$modal</code> is a service to quickly create AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.</p>
+            <p>The <code>$modal</code> service has only one method: <code>open(options)</code> where available options are like follows:</p>
+            <ul>
+                <li><code>templateUrl</code> - a path to a template representing modal's content</li>
+                <li><code>template</code> - inline template representing the modal's content</li>
+                <li><code>scope</code> - a scope instance to be used for the modal's content (actually the <code>$modal</code> service is going to create a child scope of a provided scope). Defaults to <code>$rootScope</code></li>
+                <li><code>controller</code> - a controller for a modal instance - it can initialize scope used by modal. Accepts the "controller-as" syntax in the form 'SomeCtrl as myctrl'; can be injected with <code>$modalInstance</code></li>
+            </ul>
+        </div>
+        <div class="col-sm-7">
+            <button class="regular-button" ng-dropover="playground" ng-dropover-options="{{exampleOptions}}">
+                <div>Open the Form</div>
+                <div class="dropover" ng-dropover-contents>
+                    <ng-include src="'http://verical.github.io/#/ngDropover/src/common/formDropover.html'"></ng-include>
+                </div>
+            </button>
+            Model: {{formDropover}}
         </div>
     </div>
 </div>
