@@ -1,5 +1,5 @@
 /**
- * ngdropover v0.0.0 - 2015-08-14
+ * ngdropover v0.0.0 - 2015-08-17
  * A custom angular directive to handle dropdowns and popovers with custom content
  *
  * Copyright (c) 2015 Ricky Sandoval <ricky.sandoval92@gmail.com> and Tony Smith <tony@naptown.com>
@@ -23,9 +23,11 @@
 
     angular.module('ngDropover', [])
         .run(function($document, $rootScope) {
-            $document.on('click', function(event) {
-                event.fromDocument = true;
-                $rootScope.$emit("ngDropover.closeAll", event);
+            $document.on('touchstart click', function(event) {
+                if (event.which !== 3){
+                    event.fromDocument = true;
+                    $rootScope.$emit("ngDropover.closeAll", event);
+                }
             });
         })
         .constant(
@@ -65,13 +67,17 @@
                 'mouseenter': 'mouseleave',
                 'click': 'click',
                 'focus': 'blur',
-                'none': 'none'
+                'none': 'none',
+                'touchstart click': 'touchstart click'
             };
 
             return {
                 getTriggers: function(triggerEvent) {
                     if (triggerEvent === 'hover') {
                         triggerEvent = 'mouseenter'
+                    }
+                    if (triggerEvent === 'click') {
+                        triggerEvent = 'touchstart click';
                     }
 
                     if (triggerMap.hasOwnProperty(triggerEvent)) {
@@ -119,6 +125,7 @@
                         handlers = {
                             toggle: function(e) {
                                 // This is to check if the event came from inside the directive contents
+                                e.preventDefault();
                                 if (!e.ngDropoverId) {
                                     e.ngDropoverId = scope.ngDropoverId;
                                     scope.toggle(scope.ngDropoverId);
@@ -153,7 +160,7 @@
                             setPositionClass();
                         }, true);
 
-                        dropoverContents.on('click', handlers.markEvent);
+                        dropoverContents.on('touchstart click', handlers.markEvent);
                         $document.ready(function() {
                             positionContents();
                         });
@@ -161,6 +168,7 @@
 
 
                     function setHtml() {
+                        elm.attr("ng-dropover", scope.ngDropoverId)
                         dropoverContents = getDropoverContents();
                         elm.addClass(scope.config.wrapperClass);
                         dropoverContents.css({
@@ -267,6 +275,10 @@
                     scope.open = function(ngDropoverId) {
                         if (ngDropoverId === scope.ngDropoverId && !scope.isOpen) {
 
+                            if (scope.config.closeOthersOnOpen) {
+                                $rootScope.$emit("ngDropover.closeAll", { ngDropoverId: scope.ngDropoverId });
+                            };
+
                             positionContents();
 
                             //start the display process and fire events
@@ -354,7 +366,7 @@
                     scope.$on('$destroy', function() {
                         unsetTriggers();
                         angular.element($window).unbind('resize', positionContents);
-                        dropoverContents.off('click', handlers.markEvent);
+                        dropoverContents.off('touchstart click', handlers.markEvent);
                     });
 
                 },
@@ -375,7 +387,7 @@
                         });
 
                         $scope.closeAllListener = $rootScope.$on('ngDropover.closeAll', function(event, m) {
-                            if (m.ngDropoverId !== $scope.ngDropoverId  && !(!$scope.config.closeOnClickOff && m.fromDocument)) {
+                            if (m.ngDropoverId !== $scope.ngDropoverId && !(!$scope.config.closeOnClickOff && m.fromDocument)) {
                                 // Unless closeOnClickOff is false and the event was from the document listener
                                 $scope.closeAll();
                             }
@@ -559,35 +571,3 @@
             };
         }]);
 })(window, document);
-
-
-//
-//
-//  JUNK YARD
-// 
-//
-
-// Cool code for detecting CSS transition events
-
-// function whichTransitionEvent() {
-//     var t;
-//     var el = dropoverContents[0];
-//     var transitions = {
-//         'transition': 'transitionend',
-//         'OTransition': 'oTransitionEnd',
-//         'MozTransition': 'transitionend',
-//         'WebkitTransition': 'webkitTransitionEnd'
-//     }
-
-//     for (t in transitions) {
-//         if (el.style[t] !== undefined) {
-//             return transitions[t];
-//         }
-//     }
-// }
-
-// /* Listen for a transition! */
-// var transitionEvent = whichTransitionEvent();
-// transitionEvent && elm[0].addEventListener(transitionEvent, function() {
-//     console.log('Transition complete!  This is the callback, no library needed!');
-// });
