@@ -26,5 +26,4 @@ angular.module('verical.ngDropoverPage', ['ui.router'])
         'position': "bottom-left",
         'closeOnClickOff': true
     };
-
 }]);
