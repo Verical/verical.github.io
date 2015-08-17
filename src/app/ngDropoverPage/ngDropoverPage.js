@@ -18,8 +18,8 @@ angular.module('verical.ngDropoverPage', ['ui.router'])
 .controller('ngDropoverPageCtrl', ["$scope", function ngDropoverPageCtrl($scope) {
 
     $scope.exampleOptions = {
-        'offsetX': 0,
-        'offsetY': 0,
+        'horizontalOffset': 0,
+        'verticalOffset': 0,
         'closeOthersOnOpen': false,
         'trigger': "",
         'triggerEvent': "click",

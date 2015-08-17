@@ -91,13 +91,13 @@
                 <div class="form-group">
                     <label for="exampleOffX" class="col-sm-6 control-label">Horizontal Offset:</label>
                     <div class="col-sm-6">
-                        <input type="number" class="form-control" ng-model="exampleOptions.offsetX">
+                        <input type="number" class="form-control" ng-model="exampleOptions.horizontalOffset">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputPassword1" class="col-sm-6 control-label">Vertical Offset:</label>
                     <div class="col-sm-6">
-                        <input type="number" class="form-control" ng-model="exampleOptions.offsetY">
+                        <input type="number" class="form-control" ng-model="exampleOptions.verticalOffset">
                     </div>
                 </div>
                 <div class="form-group">
@@ -134,8 +134,8 @@
             <div class="playground-result row">
                 <div class="col-sm-4 options-object">
                     $scope.exampleOptions = {
-                    <br> 'offsetX': {{exampleOptions.offsetX}},
-                    <br> 'offsetY': {{exampleOptions.offsetY}},
+                    <br> 'horizontalOffset': {{exampleOptions.horizontalOffset}},
+                    <br> 'verticalOffset': {{exampleOptions.verticalOffset}},
                     <br> 'closeOthersOnOpen': {{exampleOptions.closeOthersOnOpen}},
                     <br> 'trigger': {{exampleOptions.trigger}},
                     <br> 'triggerEvent': {{exampleOptions.triggerEvent}},
@@ -144,7 +144,7 @@
                     <br> };
                 </div>
                 <div class="col-sm-8 dropover-container">
-                    <div ng-dropover="playground" class="playground-dropover" dropover-options="{{exampleOptions}}">
+                    <div ng-dropover="playground" class="playground-dropover" ng-dropover-options="{{exampleOptions}}">
                         <button class="regular-button">This is the Target</button>
                         <div class="dropover" ng-dropover-contents>
                             <div>Dropover</div>
@@ -187,7 +187,7 @@
             <p data-height="257" data-theme-id="17874" data-slug-hash="gpyywP" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/gpyywP/'>Arrowed Tooltip</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
         </div>
     </div>
-    <div class="row">
+    <div class="row" id="example-positioning">
         <h1>Positioning</h1>
         <div class="col-sm-5">
             <p><code>$modal</code> is a service to quickly create AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.</p>
@@ -305,5 +305,62 @@
             <p data-height="257" data-theme-id="17874" data-slug-hash="aOrwyL" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/aOrwyL/'>Animation Station</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
         </div>
 
+    </div>
+    <div class="row">
+        <h1>Options</h1>
+        <p>*note: all options besides ngDropoverId are set via the ng-dropover-options property which takes an object literal</p>
+        <ul class="options col-sm-7">
+            <li>
+                <h2 class="option-title"><code>ngDropoverId</code> [string] (default: $scope.$id)</h2>
+                <p>A unique identifier for the dropover, set via <code>&lt;div ng-dropover="ngDropoverId"&gt;&lt;div&gt;</code>. If not defined, it will default to the unique $scope.$id for the isolated directive scope.</p>
+            </li>
+            <li>
+                <h2 class="option-title"><code>horizontalOffset, verticalOffset</code> [integer]</h2>
+                <p>Offsets the dropover contents by the given amount in pixels
+            </li>
+            <li>
+                <h2 class="option-title"><code>triggerEvent</code> [string] (default: click)</h2>
+                <p>The type of event that triggers opening/closing the contents when interacting with the <code>ng-dropover</code> element</p>
+                <p>Values:</p>
+                <ul>
+                    <li><code>mouseenter</code> - will close on <code>mouseleave</code></li>
+                    <li><code>hover</code> - results in <code>mouseenter : mouseleave</code></li>
+                    <li><code>click</code> - results in <code>touchstart click</code> for both open and close</li>
+                    <li><code>none</code> - no interaction with the <code>ng-droopover</code> element will trigger open/close</li>
+                </ul>
+            </li>
+            <li>
+                <h2 class="option-title"><code>closeOnClickOff</code> [boolean] (default: true)</h2>
+                <p>If true, will close the dropover when clicking outside of the contents</p>
+            </li>
+            <li>
+                <h2 class="option-title"><code>position</code> [string] (default: bottom-left)</h2>
+                <p>Positions the dropover contents relative to whatever element is used as the base element for <code>ng-dropover</code></p>
+                <ul>Values:
+                    <li>Offset horizontally and vertically</li>
+                    <li>bottom-left</li>
+                    <li>bottom-center</li>
+                    <li>bottom-right</li>
+                    <li>top-left</li>
+                    <li>top-center</li>
+                    <li>top-right</li>
+                    <li>left-bottom</li>
+                    <li>left-center</li>
+                    <li>left-top</li>
+                    <li>right-bottom</li>
+                    <li>right-center</li>
+                    <li>right-top</li>
+                </ul>
+                <img src="assets/img/positioning.png">
+            </li>
+            <li>
+                <h3 class="option-title"><code>group</code> [string] (default: '')</h3>
+                <p>Will be added as a class to the dropover contents, and passed as a property of <code>dropObj</code> on the <code>ngDropover.opening</code> and <code>ngDropover.closing</code> events. Useful for defining CSS or hooking into a set of dropover instances</p>
+            </li>
+            <li>
+                <h3 class="option-title"><code>closeOthersOnOpen</code> [boolean] (default: true)</h3>
+                <p>When true, will close <em>all</em> open dropovers when the dropover is opened. This overrides <code>closeOnClickOff: false</code> for other dropovers.</p>
+            </li>
+        </ul>
     </div>
 </div>

@@ -201,3 +201,10 @@ td.shadow-center {
 .shadow-fun.ngdo-right-top .ngdo-contents {
     box-shadow: 40px -40px 5px 8px rgba(0, 0, 0, 0.75);
 }
+
+.options > li {
+    margin-top: 40px;
+}
+.option-title {
+    font-size: 20px;
+}
