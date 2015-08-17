@@ -102,6 +102,10 @@ form .checkbox .control-label {
     margin-top: 20px;
 }
 
+.playground-dropover {
+    display: inline-block;
+}
+
 .terminal {
     background-color: #f7f7f7;
     padding: 10px;
