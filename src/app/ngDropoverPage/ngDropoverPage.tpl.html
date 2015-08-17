@@ -27,32 +27,57 @@
     </nav>
     <div class="row">
         <h1>Introduction</h1>
-        <div class="intro">ngDropover is a feature-rich solution for dropdowns, popovers, tooltips, toasters, or any other time you need a trigger or triggers to hide-show an element. The only dependency is AngularJS and your imagination!</div>
-        <h2>ngDropover allows you to...</h2>
-        <div class="col-sm-6">
+        <div class="intro">ngDropover is a feature-rich solution for dropdowns, popovers, tooltips, toasters, or any other time you need a trigger or triggers to hide-show an element. The only dependency is AngularJS and your imagination!
             <li>Open and close the dropover programmatically</li>
             <li>Easily create multiple triggers</li>
-            <li>Close dropover when clicking outside directive</li>
+            <li>Close dropover when clicking outside directive EVENTS! EXAMPLE</li>
             <li>Close other dropovers when opening</li>
         </div>
-        <div class="col-sm-6">
-            Shout out to the <a href="https://github.com/angular-ui">AngularUI</a> team for the big head start on the positioning logic.
-            <ul>
-                <li>Offset horizontally and vertically</li>
-                <li>bottom-left</li>
-                <li>bottom-center</li>
-                <li>bottom-right</li>
-                <li>top-left</li>
-                <li>top-center</li>
-                <li>top-right</li>
-                <li>left-bottom</li>
-                <li>left-center</li>
-                <li>left-top</li>
-                <li>right-bottom</li>
-                <li>right-center</li>
-                <li>right-top</li>
-            </ul>
-            <img src="assets/img/positioning.png">
+        <h2>ngDropover Options</h2>
+        <div>
+            <div ng-non-bindable>Options are supplied to the directive as an object through the <code>ng-dropover-options</code> attribute. The options support binding and will update on the fly. We highly suggest you make use of binding for options. To do so just add the options object to your model and wrap the attribute value in curlies: <code>ng-dropover-options="{{myOptionsObject}}"</code>. To make things easier to read, examples on this site do not use binding for options. Here are all the options currently supported...</div>
+            <h3>position</h3>
+            <div>This option allows you to specify where, in relation to the directive's position, you would like the dropover to appear.</div>
+            <div>Default: 'bottom-left'</div>
+            <div>Example: <code ng-non-bindable>ng-dropover-options="{'position':'top-center'}"</code></div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <h4>Available Positions</h4>
+                    <div><img src="assets/img/positioning.png"></div>
+                </div>
+                <div class="col-sm-6">
+                    <h4>Accepted Values</h4>
+                    <ul>
+                        <li>'bottom-left' (can also use 'bottom')</li>
+                        <li>'bottom-center'</li>
+                        <li>'bottom-right'</li>
+                        <li>'top-left' (can also use 'top')</li>
+                        <li>'top-center'</li>
+                        <li>'top-right'</li>
+                        <li>'left-bottom' (can also use 'left')</li>
+                        <li>'left-center'</li>
+                        <li>'left-top'</li>
+                        <li>'right-bottom' (can also use 'right')</li>
+                        <li>'right-center'</li>
+                        <li>'right-top'</li>
+                    </ul>
+                </div>
+            </div>
+            <h3>horizontalOffset</h3>
+            <div>Example: <code ng-non-bindable>ng-dropover-options="{'horizontalOffset':20}"</code></div>
+            <div>Allows you to set a -/+ value in pixels to move the dropover left or right from it's set position.</div>
+            <h3>verticalOffset</h3>
+            <div>Example: <code ng-non-bindable>ng-dropover-options="{'verticalOffset':-10}"</code></div>
+            <div>Allows you to set a -/+ value in pixels to move the dropover up or down from it's set position.</div>
+            <h3>closeOthersOnOpen</h3>
+            <div>Example: <code ng-non-bindable>ng-dropover-options="{'closeOthersOnOpen':true}"</code></div>
+            <div>Tells the directive that you want all other open dropovers to close when any dropover os opened.</div>
+            <h3>closeOnClickOff</h3>
+            <div>Example: <code ng-non-bindable>ng-dropover-options="{'closeOnClickOff':true}"</code></div>
+            <div>Tells the directive that you want the dropover to close if you click anywhere outside of it.</div>
+            <h3>triggerEvent</h3>
+            <div>Example: <code ng-non-bindable>ng-dropover-options="{'triggerEvent':'hover'}"</code></div>
+            <div>Use this to change the event that makes the dropover open. Valid values are: 'click', 'hover', 'focus', and 'none'. The value 'none' is useful when you just want manual events to control the opening and closing.</div>
         </div>
     </div>
     <div class="row">
@@ -61,17 +86,17 @@
         <h2>Install with NPM</h2>
         <div class="terminal">npm install --save ngdropover</div>
         <h2>Manual Download</h2>
-        <div>Download the lastest version here. Install the file in the right place. Add the directive dependency to the node.</div>
+        <div>Download the lastest version here.</div>
         <h2>Add it to your app</h2>
         <div class="terminal">angular.module('myApp', ['ngDropover'])</div>
     </div>
     <div class="row">
         <h1>Options Playground</h1>
-        <div class="col-sm-5">
-            <form name="playExample" class="form-horizontal" role="form" method="POST" novalidate autocomplete="off">
+        <div class="col-sm-4">
+            <form name="playExample" role="form" method="POST" novalidate autocomplete="off">
                 <div class="form-group">
-                    <label for="examplePosition" class="col-sm-6 control-label">Position:</label>
-                    <div class="col-sm-6">
+                    <label for="examplePosition" class="control-label">Position:</label>
+                    <div>
                         <select ng-model="exampleOptions.position" class="form-control">
                             <option>bottom-left</option>
                             <option>bottom-center</option>
@@ -89,19 +114,19 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="exampleOffX" class="col-sm-6 control-label">Horizontal Offset:</label>
-                    <div class="col-sm-6">
+                    <label class="control-label">Horizontal Offset:</label>
+                    <div>
                         <input type="number" class="form-control" ng-model="exampleOptions.horizontalOffset">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputPassword1" class="col-sm-6 control-label">Vertical Offset:</label>
-                    <div class="col-sm-6">
+                    <label class="control-label">Vertical Offset:</label>
+                    <div>
                         <input type="number" class="form-control" ng-model="exampleOptions.verticalOffset">
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-6 col-sm-6">
+                    <div>
                         <div class="checkbox">
                             <label class="control-label">
                                 <input type="checkbox" ng-model="exampleOptions.closeOnClickOff">Close on click off
@@ -110,7 +135,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div class="col-sm-offset-6 col-sm-6">
+                    <div>
                         <div class="checkbox">
                             <label class="control-label">
                                 <input type="checkbox" ng-model="exampleOptions.closeOnOpen">Close all others on open
@@ -119,8 +144,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="exampleTriggerEvent" class="col-sm-6 control-label">Trigger Event:</label>
-                    <div class="col-sm-6">
+                    <label class="control-label">Trigger Event:</label>
+                    <div>
                         <select ng-model="exampleOptions.triggerEvent" class="form-control">
                             <option value="click">Click</option>
                             <option value="hover">Hover</option>
@@ -130,28 +155,29 @@
                 </div>
             </form>
         </div>
-        <div class="col-sm-7">
-            <div class="playground-result row">
-                <div class="col-sm-4 options-object">
-                    $scope.exampleOptions = {
-                    <br> 'horizontalOffset': {{exampleOptions.horizontalOffset}},
-                    <br> 'verticalOffset': {{exampleOptions.verticalOffset}},
-                    <br> 'closeOthersOnOpen': {{exampleOptions.closeOthersOnOpen}},
-                    <br> 'trigger': {{exampleOptions.trigger}},
-                    <br> 'triggerEvent': {{exampleOptions.triggerEvent}},
-                    <br> 'position': {{exampleOptions.position}},
-                    <br> 'closeOnClickOff': {{exampleOptions.closeOnClickOff}}
-                    <br> };
-                </div>
-                <div class="col-sm-8 dropover-container">
-                    <div ng-dropover="playground" class="playground-dropover" ng-dropover-options="{{exampleOptions}}">
-                        <button class="regular-button">This is the Target</button>
+        <div class="col-sm-8">
+            <div class="playground-result">
+                <div class="dropover-container">
+                    <div ng-dropover="playground1" class="playground-dropover" ng-dropover-options="{{exampleOptions}}">
+                        <button class="regular-button">This is Target 1</button>
                         <div class="dropover" ng-dropover-contents>
                             <div>Dropover</div>
                             <div>Contents</div>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div>
+                <code>              
+                    {
+                    <br> 'position': {{exampleOptions.position}},
+                    <br> 'horizontalOffset': {{exampleOptions.offsetX}},
+                    <br> 'verticalOffset': {{exampleOptions.offsetY}},
+                    <br> 'closeOthersOnOpen': {{exampleOptions.closeOthersOnOpen}},
+                     <br> 'closeOnClickOff': {{exampleOptions.closeOnClickOff}},
+                    <br> 'triggerEvent': {{exampleOptions.triggerEvent}},
+                    <br> };
+                </code>
             </div>
         </div>
     </div>
@@ -278,7 +304,8 @@
         <div class="col-sm-7">
             <p data-height="335" data-theme-id="17874" data-slug-hash="YXMbQQ" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/YXMbQQ/'>Form Include</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
         </div>
-    </div><div class="row">
+    </div>
+    <div class="row">
         <h1>Navbar with nested dropovers</h1>
         <div class="col-sm-5">
             <p><code>$modal</code> is a service to quickly create AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.</p>
