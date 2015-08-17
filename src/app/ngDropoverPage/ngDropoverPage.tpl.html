@@ -222,6 +222,42 @@
     <div class="row">
         <h1>Using Events</h1>
         <div class="col-sm-5">
+            <p>It's easy to control dropovers remotely using events. This gives you the flexibility to open and close for more advanced triggers and situations.</p>
+            <ul>
+                <li>
+                    <code>ngDropover.open</code>
+                    <p>Opens a dropover specified by it's unique ID</p>
+                    <code class="code-block">
+                        $scope.$emit('ngDropover.open', 'myDropover');
+                    </code>
+                </li>
+                <li>
+                    <code>ngDropover.close</code>
+                    <p>Closes a dropover specified by it's unique ID</p>
+                    <code class="code-block">
+                        $scope.$emit('ngDropover.close', 'myDropover');
+                    </code>
+                </li>
+                <li>
+                    <code>ngDropover.toggle</code>
+                    <p>Toggles a dropover open/closed, specified by it's unique ID</p>
+                    <code class="code-block">
+                        $scope.$emit('ngDropover.toggle', 'myDropover');
+                    </code>
+                </li>
+                <li>
+                    <code>ngDropover.closeAll</code>
+                    <p>Closes all dropover instances, optionally leaves open one dropover specified by it's unique ID. Note, this optional dropover id must be passed as an object literal with the property name <code>ngDropoverId</code> instead of a string</p>
+                    <p>Close all:</p>
+                    <code class="code-block">
+                        $scope.$emit('ngDropover.closeAll');
+                    </code>
+                    <p>Close all but 'myDropover'</p>
+                    <code class="code-block">
+                        $scope.$emit('ngDropover.closeAll', { ngDropoverId: 'myDropover' });
+                    </code>
+                </li>
+            </ul>
         </div>
         <div class="col-sm-7">
             <p data-height="364" data-theme-id="17874" data-slug-hash="Nqmmav" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/Nqmmav/'>Nqmmav</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
@@ -264,7 +300,6 @@
             <p>With ngDropover, we leave animations and transitions up to you. We recommend one of two ways.</p>
             <h3>1. CSS3</h3>
             <p>All you need to do is define your css3 transitions on <code>.ngdo-contents</code> or <code>[ng-dropover-contents]</code>, and then use the <code>.ngdo-open</code> class to define state change.</p>
-            <br>
             <p>Example:<br>
             <code class="code-block">
             .ngdo-contents { <br>
@@ -278,11 +313,9 @@
                 <span class="last-line">}</span>
             </code>
             </p>
-
             <h3>2. JavaScript</h3>
             <p>By listening for the <code>ngDropover.opening</code> and <code>ngDropover.closing</code> events, you can define animations on the dropover the event corresponds to</p>
             <p>*note : you will have to handle the display property change when closing</p>
-            <br>
             <p>jQuery Example:</p>
             <code class="code-block">
                 $rootScope.$on('ngDropover.opening', <br>
@@ -297,7 +330,6 @@
                         $(dropObj.element).stop().slideUp();<br>
                 <span class="last-line">});</span>
             </code>
-            <br>
             <p>The <code>dropObj</code> object passed to the opening and closing functions has <code>id</code>, <code>group</code>, and the <code>element</code> properties</p>
             
         </div>
@@ -335,7 +367,7 @@
             </li>
             <li>
                 <h2 class="option-title"><code>position</code> [string] (default: bottom-left)</h2>
-                <p>Positions the dropover contents relative to whatever element is used as the base element for <code>ng-dropover</code></p>
+                <p>Positions the dropover contents relative to whatever DOM element is used as the base element for <code>ng-dropover</code></p>
                 <ul>Values:
                     <li>Offset horizontally and vertically</li>
                     <li>bottom-left</li>
