@@ -61,6 +61,8 @@
                         <li>'right-center'</li>
                         <li>'right-top'</li>
                     </ul>
+                    <h4>Position Classes</h4>
+                    
                 </div>
             </div>
             <h3>horizontalOffset</h3>
@@ -79,6 +81,13 @@
             <div>Example: <code ng-non-bindable>ng-dropover-options="{'triggerEvent':'hover'}"</code></div>
             <div>Use this to change the event that makes the dropover open. Valid values are: 'click', 'hover', 'focus', and 'none'. The value 'none' is useful when you just want manual events to control the opening and closing.</div>
         </div>
+    </div>
+    <div class="row">
+        <h1>Technological Overview</h1>
+        <div>ng-dropover</div>
+        <div>ng-dropover-contents</div>
+        <div>events</div>
+        <div>classes</div>
     </div>
     <div class="row">
         <h1>Getting Started</h1>
@@ -181,17 +190,11 @@
             </div>
         </div>
     </div>
+    <div><h1>Here are some examples</h1> Million ways to skin a cat</div>
     <div class="row">
         <h1>Most Basic Implementation</h1>
         <div class="col-sm-5">
-            <p><code>$modal</code> is a service to quickly create AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.</p>
-            <p>The <code>$modal</code> service has only one method: <code>open(options)</code> where available options are like follows:</p>
-            <ul>
-                <li><code>templateUrl</code> - a path to a template representing modal's content</li>
-                <li><code>template</code> - inline template representing the modal's content</li>
-                <li><code>scope</code> - a scope instance to be used for the modal's content (actually the <code>$modal</code> service is going to create a child scope of a provided scope). Defaults to <code>$rootScope</code></li>
-                <li><code>controller</code> - a controller for a modal instance - it can initialize scope used by modal. Accepts the "controller-as" syntax in the form 'SomeCtrl as myctrl'; can be injected with <code>$modalInstance</code></li>
-            </ul>
+            It doesn't get much easier than this. Add the directive and indicate the dropover contents. The default values will apply and make this thing open a dropover at bottom left on click.
         </div>
         <div class="col-sm-7">
             <p data-height="257" data-theme-id="17874" data-slug-hash="GJLdRJ" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/GJLdRJ/'>GJLdRJ</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
@@ -200,30 +203,16 @@
     <div class="row">
         <h1>Tooltip with an arrow</h1>
         <div class="col-sm-5">
-            <p><code>$modal</code> is a service to quickly create AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.</p>
-            <p>The <code>$modal</code> service has only one method: <code>open(options)</code> where available options are like follows:</p>
-            <ul>
-                <li><code>templateUrl</code> - a path to a template representing modal's content</li>
-                <li><code>template</code> - inline template representing the modal's content</li>
-                <li><code>scope</code> - a scope instance to be used for the modal's content (actually the <code>$modal</code> service is going to create a child scope of a provided scope). Defaults to <code>$rootScope</code></li>
-                <li><code>controller</code> - a controller for a modal instance - it can initialize scope used by modal. Accepts the "controller-as" syntax in the form 'SomeCtrl as myctrl'; can be injected with <code>$modalInstance</code></li>
-            </ul>
+            This is your pretty standard "tooltip" implementation. You move your little white pointy thing over the yellow button and a little windowy thing shows up that has a pointy triangle. All that was needed to do was to vertically offset the dropover by the height of the arrow and add a hover trigger event.
         </div>
         <div class="col-sm-7">
             <p data-height="257" data-theme-id="17874" data-slug-hash="gpyywP" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/gpyywP/'>Arrowed Tooltip</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
         </div>
     </div>
     <div class="row" id="example-positioning">
-        <h1>Positioning</h1>
+        <h1>Shadow Super Happy Fun Time!</h1>
         <div class="col-sm-5">
-            <p><code>$modal</code> is a service to quickly create AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.</p>
-            <p>The <code>$modal</code> service has only one method: <code>open(options)</code> where available options are like follows:</p>
-            <ul>
-                <li><code>templateUrl</code> - a path to a template representing modal's content</li>
-                <li><code>template</code> - inline template representing the modal's content</li>
-                <li><code>scope</code> - a scope instance to be used for the modal's content (actually the <code>$modal</code> service is going to create a child scope of a provided scope). Defaults to <code>$rootScope</code></li>
-                <li><code>controller</code> - a controller for a modal instance - it can initialize scope used by modal. Accepts the "controller-as" syntax in the form 'SomeCtrl as myctrl'; can be injected with <code>$modalInstance</code></li>
-            </ul>
+            Roll you mouse over the squares and watch the magic happen! No, the big red square in the center does not do anything. This shows you all the available standard positions and also demonstrates how you might want to use the position classes. In the example, I tweak the background shadow to move into a position that matches the current dropover's position.
         </div>
         <div class="col-sm-7">
             <p data-height="364" data-theme-id="17874" data-slug-hash="LVvvbo" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/LVvvbo/'>LVvvbo</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
@@ -232,14 +221,7 @@
     <div class="row">
         <h1>Overly Attached Dropover</h1>
         <div class="col-sm-5">
-            <p><code>$modal</code> is a service to quickly create AngularJS-powered modal windows. Creating custom modals is straightforward: create a partial view, its controller and reference them when using the service.</p>
-            <p>The <code>$modal</code> service has only one method: <code>open(options)</code> where available options are like follows:</p>
-            <ul>
-                <li><code>templateUrl</code> - a path to a template representing modal's content</li>
-                <li><code>template</code> - inline template representing the modal's content</li>
-                <li><code>scope</code> - a scope instance to be used for the modal's content (actually the <code>$modal</code> service is going to create a child scope of a provided scope). Defaults to <code>$rootScope</code></li>
-                <li><code>controller</code> - a controller for a modal instance - it can initialize scope used by modal. Accepts the "controller-as" syntax in the form 'SomeCtrl as myctrl'; can be injected with <code>$modalInstance</code></li>
-            </ul>
+            Nothing super special going on here other. It is just a standard dropover with a hover trigger event, positioned bottom left, and a -1px vertical offset. Mix this with a negative z-index (so that the dropover tucks under its sibling content) and you have an attached dropover. What a time to be alive!!!
         </div>
         <div class="col-sm-7">
             <p data-height="257" data-theme-id="17874" data-slug-hash="gpyyxM" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/gpyyxM/'>Attached Dropover</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
