@@ -258,4 +258,52 @@
             <p data-height="361" data-theme-id="17874" data-slug-hash="4c94ed7519c87f6e501b123b590a30d4" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/4c94ed7519c87f6e501b123b590a30d4/'>Menu Bar</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
         </div>
     </div>
+    <div class="row">
+        <h1>Animation Station</h1>
+        <div class="col-sm-5">
+            <p>With ngDropover, we leave animations and transitions up to you. We recommend one of two ways.</p>
+            <h3>1. CSS3</h3>
+            <p>All you need to do is define your css3 transitions on <code>.ngdo-contents</code> or <code>[ng-dropover-contents]</code>, and then use the <code>.ngdo-open</code> class to define state change.</p>
+            <br>
+            <p>Example:<br>
+            <code class="code-block">
+            .ngdo-contents { <br>
+                transition: all ease-in-out 0.5s;<br>
+                opacity: 0;<br>
+            <span class="last-line">}</span>
+            </code>
+            <code class="code-block">
+                .ngdo-open .ngdo-contents {<br>
+                  opacity: 1;<br>
+                <span class="last-line">}</span>
+            </code>
+            </p>
+
+            <h3>2. JavaScript</h3>
+            <p>By listening for the <code>ngDropover.opening</code> and <code>ngDropover.closing</code> events, you can define animations on the dropover the event corresponds to</p>
+            <p>*note : you will have to handle the display property change when closing</p>
+            <br>
+            <p>jQuery Example:</p>
+            <code class="code-block">
+                $rootScope.$on('ngDropover.opening', <br>
+                    function(event, dropObj) {<br><br>
+                        $(dropObj.element).stop().slideDown(); <br>
+                <span class="last-line">});</span>
+            </code>
+            <code class="code-block">
+                $rootScope.$on('ngDropover.closing',<br>
+                function(event, dropObj) {<br><br>
+                        $(dropObj.element).show();<br>
+                        $(dropObj.element).stop().slideUp();<br>
+                <span class="last-line">});</span>
+            </code>
+            <br>
+            <p>The <code>dropObj</code> object passed to the opening and closing functions has <code>id</code>, <code>group</code>, and the <code>element</code> properties</p>
+            
+        </div>
+        <div class="col-sm-7">
+            <p data-height="257" data-theme-id="17874" data-slug-hash="aOrwyL" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/aOrwyL/'>Animation Station</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
+        </div>
+
+    </div>
 </div>
