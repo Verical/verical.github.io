@@ -16,6 +16,12 @@ header .logo-assets {
     padding-top: 50px;
 }
 
+footer {
+    background-image: url("img/70s-pattern.png");
+    background-repeat: repeat-x;
+    height: 300px;
+}
+
 a {
     color: #77b49e;
     font-weight: 500;
@@ -29,6 +35,11 @@ nav a {
 .title-primary {
     border-bottom: 4px solid #d26925;
     margin-bottom: 20px;
+}
+
+.example-title {
+    border-bottom: 1px dotted #333;
+    font-size: 22px;
 }
 
 .code-block {
@@ -56,7 +67,7 @@ nav a {
     color: #fff;
     text-align: center;
     font-weight: 500;
-    outline: none;
+    cursor: pointer;
 }
 
 form {}
@@ -85,11 +96,21 @@ form .checkbox .control-label {
     display: table-cell;
     vertical-align: middle;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .content-top {
     margin-top: 40px;
     margin-bottom: 20px;
+}
+
+.imagination {
+    font-size: 24px;
+}
+.imagination img {
+    width: 50px;
+    max-width: 100%;
+    margin-left: 5px;
 }
 
 .centering {
@@ -216,5 +237,15 @@ td.shadow-center {
 }
 .option-title, .event-title {
     font-size: 20px;
+}
+
+.available-positions {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+.available-positions img {
+    max-width: 100%;
+    width: 100%;
 }
 
