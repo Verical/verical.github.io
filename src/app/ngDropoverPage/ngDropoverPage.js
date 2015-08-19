@@ -24,7 +24,8 @@ angular.module('verical.ngDropoverPage', ['ui.router'])
         'trigger': "",
         'triggerEvent': "click",
         'position': "bottom-left",
-        'closeOnClickOff': true
+        'closeOnClickOff': true,
+        'groupId': 'exampleGroup'
     };
 
     $scope.openGithub = function() {
