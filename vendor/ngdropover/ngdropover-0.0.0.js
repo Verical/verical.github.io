@@ -1,5 +1,5 @@
 /**
- * ngdropover v0.0.0 - 2015-08-17
+ * ngdropover v0.0.0 - 2015-08-18
  * A custom angular directive to handle dropdowns and popovers with custom content
  *
  * Copyright (c) 2015 Ricky Sandoval <ricky.sandoval92@gmail.com> and Tony Smith <tony@naptown.com>
@@ -24,7 +24,7 @@
     angular.module('ngDropover', [])
         .run(function($document, $rootScope) {
             $document.on('touchstart click', function(event) {
-                if (event.which !== 3){
+                if (event.which !== 3) {
                     event.fromDocument = true;
                     $rootScope.$emit("ngDropover.closeAll", event);
                 }
@@ -173,8 +173,8 @@
                         elm.addClass(scope.config.wrapperClass);
                         dropoverContents.css({
                             'position': 'absolute'
-                        }).addClass('ngdo-contents');
-                        transition.event = whichTransitionEvent();
+                        }).addClass('ngdo-contents ' + scope.config.groupId);
+                        transition.event = getTransitions();
                         transition.handler = function(event) {
                             if (event.propertyName == "visibility") {
                                 return;
@@ -261,11 +261,11 @@
                     function getDropoverContents() {
                         var ret;
                         if (elm[0].querySelector('[ng-dropover-contents]')) {
-                            ret = angular.element(elm[0].querySelector('[ng-dropover-contents]')).addClass(scope.config.groupId);
+                            ret = angular.element(elm[0].querySelector('[ng-dropover-contents]'));
                             return ret;
                         } else {
 
-                            ret = angular.element("<div class='ngdo-empty'>Oops, you forgot to specify what goes in the dropdown</div>").addClass(scope.config.groupId);
+                            ret = angular.element("<div class='ngdo-empty'>Oops, you forgot to specify what goes in the dropdown</div>");
                             elm.append(ret);
                             return ret;
                         }
@@ -273,13 +273,15 @@
 
                     //ToDo: Detect previous display value
                     scope.open = function(ngDropoverId) {
-                        if (transition.event){
+                        if (transition.event) {
                             dropoverContents[0].removeEventListener(transition.event, transition.handler);
                         }
                         if (ngDropoverId === scope.ngDropoverId && !scope.isOpen) {
 
                             if (scope.config.closeOthersOnOpen) {
-                                $rootScope.$emit("ngDropover.closeAll", { ngDropoverId: scope.ngDropoverId });
+                                $rootScope.$emit("ngDropover.closeAll", {
+                                    ngDropoverId: scope.ngDropoverId
+                                });
                             };
 
                             positionContents();
@@ -320,9 +322,7 @@
                         }
                     };
 
-                    function whichTransitionEvent() {
-                        var t;
-                        var el = dropoverContents[0];
+                    function getTransitions() {
                         var transitions = {
                             'transition': 'transitionend',
                             'OTransition': 'oTransitionEnd',
@@ -335,10 +335,10 @@
                             'MozTransition': 'MozTransitionDuration',
                             'webkitTransition': 'WebkitTransitionDuration'
                         };
-
+                        var t;
                         for (t in transitions) {
-                            if (el.style[t] !== undefined && parseFloat($position.getStyle(el, propertyCheck[t]), 10) > 0) {
-                                transition.duration = Math.floor(parseFloat($position.getStyle(el, propertyCheck[t]), 10) * 1000);
+                            if (dropoverContents[0].style[t] !== undefined && parseFloat($position.getStyle(dropoverContents[0], propertyCheck[t]), 10) > 0) {
+                                t.duration = Math.floor(parseFloat($position.getStyle(dropoverContents[0], propertyCheck[t]), 10) * 1000);
                                 return transitions[t];
                             }
                         }
