@@ -1,5 +1,5 @@
 /**
- * ngdropover v0.0.0 - 2015-08-18
+ * ngdropover v0.0.0 - 2015-08-19
  * A custom angular directive to handle dropdowns and popovers with custom content
  *
  * Copyright (c) 2015 Ricky Sandoval <ricky.sandoval92@gmail.com> and Tony Smith <tony@naptown.com>
@@ -99,6 +99,8 @@
                 console.log("");
             }
 
+            var allDropOvers = [];
+
             return {
                 restrict: 'A',
                 replace: true,
@@ -118,8 +120,6 @@
 
                         scope.config = angular.extend({}, ngDropoverConfig, scope.$eval(scope.ngDropoverOptions));
                         scope.positions = positions;
-
-
 
                         setHtml();
                         handlers = {
@@ -148,6 +148,8 @@
                             }
                         }
 
+                        setDropoverObj();
+
                         scope.$watch('ngDropoverOptions', function() {
                             unsetTriggers();
                             scope.config = angular.extend({}, ngDropoverConfig, scope.$eval(scope.ngDropoverOptions));
@@ -158,6 +160,7 @@
                             setTriggers();
                             positionContents();
                             setPositionClass();
+                            updateDropoverArray();
                         }, true);
 
                         dropoverContents.on('touchstart click', handlers.markEvent);
@@ -186,7 +189,14 @@
                         };
                     }
 
-
+                    function setDropoverObj() {
+                        scope.dropoverObj = {
+                            options: scope.config,
+                            id: scope.ngDropoverId,
+                            children: elm[0].querySelectorAll('[ng-dropover]'),
+                            element: elm
+                        };
+                    };
 
                     //Get the trigger from the config if the user set it. Otherwise the trigger will default to the scope's element
                     function setTriggers() {
@@ -258,6 +268,17 @@
                         elm.addClass('ngdo-' + scope.config.position);
                     };
 
+                    function updateDropoverArray() {
+                        var dropoverObjIndex = allDropOvers.indexOf(scope.dropoverObj);
+                        if (dropoverObjIndex == -1) {
+                            allDropOvers.push(scope.dropoverObj);
+                        } else {
+                            setDropoverObj();
+                            allDropOvers[dropoverObjIndex] = scope.dropoverObj;
+                        }
+                        console.log(allDropOvers);
+                    };
+
                     function getDropoverContents() {
                         var ret;
                         if (elm[0].querySelector('[ng-dropover-contents]')) {
@@ -269,7 +290,7 @@
                             elm.append(ret);
                             return ret;
                         }
-                    }
+                    };
 
                     //ToDo: Detect previous display value
                     scope.open = function(ngDropoverId) {
@@ -287,11 +308,7 @@
                             positionContents();
 
                             //start the display process and fire events
-                            $rootScope.$broadcast('ngDropover.opening', {
-                                id: scope.ngDropoverId,
-                                element: dropoverContents[0],
-                                groupId: scope.config.groupId
-                            });
+                            $rootScope.$broadcast('ngDropover.opening', scope.dropoverObj);
                             dropoverContents.css({
                                 'display': 'inline-block'
                             });
@@ -359,11 +376,7 @@
                         elm.removeClass('ngdo-open');
                         scope.isOpen = false;
 
-                        $rootScope.$broadcast('ngDropover.closing', {
-                            id: scope.ngDropoverId,
-                            element: dropoverContents[0],
-                            groupId: scope.config.groupId
-                        });
+                        $rootScope.$broadcast('ngDropover.closing', scope.dropoverObj);
 
                         angular.element($window).unbind('resize', positionContents);
                     };
