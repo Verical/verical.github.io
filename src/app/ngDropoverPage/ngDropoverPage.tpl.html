@@ -25,7 +25,8 @@
     </div>
     <div class="row section-options">
         <h1 class="title-primary">Options</h1>
-        <div ng-non-bindable class="intro">Options are supplied to the directive as an object through the <code>ng-dropover-options</code> attribute. The options support binding and will update on the fly. We highly suggest you make use of binding for options. To do so just add the options object to your model and wrap the attribute value in curlies: <code>ng-dropover-options="{{myOptionsObject}}"</code>. To make things easier to read, examples on this site do not use binding for options. Here are all the options currently supported...</div>
+        <div ng-non-bindable class="intro">Options are supplied to the directive as an object through the <code>ng-dropover-options</code> attribute. The options support binding and will update on the fly. We highly suggest you make use of binding for options. To do so just add the options object to your model and wrap the attribute value in curlies: <code>ng-dropover-options="{{myOptionsObject}}"</code>. To make things easier to read, examples on this site do not use binding for options. </div>
+        <h3>Here are all the options currently supported...</h3>
         <ul class="options col-sm-7">
             <li>
                 <h2 class="option-title"><code>ngDropoverId</code> [string] (default: $scope.$id)</h2>
@@ -70,18 +71,40 @@
             </li>
             <li>
                 <h3 class="option-title"><code>groupId</code> [string] (default: '')</h3>
-                <p>Will be added as a class to the dropover contents, and passed as a property of <code>dropObj</code> on the <code>ngDropover.opening</code> and <code>ngDropover.closing</code> events. Useful for defining CSS or hooking into a set of dropover instances</p>
+                <p>This is a string ID so that you have the option group dropovers by some indentifier. This will be added as a class to the dropover contents and passed as the second parameter on the <code>ngDropover.opening</code> and <code>ngDropover.closing</code> events. Useful for defining CSS or hooking into a set of dropover instances.</p>
             </li>
         </ul>
     </div>
     <div class="row">
-        <h1 class="title-primary">Technological Overview</h1>
-        <div>ng-dropover</div>
-        <div>ng-dropover-contents</div>
-        <div>events</div>
-        <div>classes</div>
+        <h1 class="title-primary">Classes</h1>
+        <ul>
+            <li>
+                <h1 class="event-title"><code>ngdo-open</code></h1>
+                <div class="event-info">
+                    Added to the directive element when the dropover is open.
+                </div>
+            </li>
+            <li>
+                <h1 class="event-title"><code>ngdo-contents</code></h1>
+                <div class="event-info">
+                    This is a class that is added on the dropover.
+                </div>
+            </li>
+            <li>
+                <h1 class="event-title"><code>ngdo-<i>position</i></code></h1>
+                <div class="event-info">
+                    Added to the directive element based on the 'position' option value.
+                </div>
+            </li>
+            <li>
+                <h1 class="event-title"><code>ngdo-<i>groupId</i></code></h1>
+                <div class="event-info">
+                    Added to the directive element based on the 'groupId' option value.
+                </div>
+            </li>
+        </ul>
         <div class="row-sm-8">
-            <h2 class="title-secondary">Events</h2>
+            <h1 class="title-primary">Events</h1>
             <div>ngDropover is event-based, and many of those events you can send or listen for to give you greater flexibility in your application. Here are all the events and how to use them.</div>
             <ul>
                 <li>
@@ -119,23 +142,25 @@
                 <li>
                     <h1 class="event-title"><code>ngDropover.opening</code></h1>
                     <div class="event-info">
-                        <div>params: [object] drobObj</div>
+                        <div>params: event, [object]</div>
                         <div>example:</div>
                         <code class="code-iblock">
                             $rootScope.$on('ngDropover.opening', function(event, dropObj) {<br>
                                 // Do something<br>
                             <span class="last-line">});</span>
                         </code>
-                        <div>Listen for this event if you want to perform an action on the opening of a dropOver, like JavaScript animation. It is send when the internal open call is made. The dropObj contains the following info about the dropover:</div>
-                        <div><code>id</code>: the ngDropoverId of the associated dropover</div>
-                        <div><code>element</code>: the DOM element of the dropovers Contents</div>
-                        <div><code>groupId:</code> the groupId of the dropover, if it exists</div>
+                        <div>Listen for this event if you want to perform an action on the opening of a dropover, like JavaScript animation. It is dispatched as soon as the directive's open method is called. The object param contains the following info about the dropover:</div>
+                        <div class="event-object-params">
+                            <div><code>id</code>: The ngDropoverId of the associated dropover</div>
+                            <div><code>element</code>: The DOM element of the dropovers Contents</div>
+                            <div><code>groupId:</code> The groupId of the dropover, if it exists</div>
+                        </div>
                     </div>
                 </li>
                 <li>
                     <h1 class="event-title"><code>ngDropover.closing</code></h1>
                     <div class="event-info">
-                        <div>params: [object] drobObj</div>
+                        <div>params: event, [object]</div>
                         <div>example:</div>
                         <code class="code-iblock">
                             $rootScope.$on('ngDropover.closing', function(event, dropObj) {<br>
@@ -152,7 +177,7 @@
         </div>
     </div>
     <div class="row">
-        <h1 class="title-primary">Getting Started</h1>
+        <h1 class="title-primary">Installation</h1>
         <div>XXXX</div>
         <h2>Install with NPM</h2>
         <div class="terminal">npm install --save ngdropover</div>
@@ -340,6 +365,7 @@
         <h1 class="example-title">Form Include</h1>
         <div class="col-sm-5">
             XXXXXX
+            http://verical.github.io/src/common/formDropover.html
         </div>
         <div class="col-sm-7">
             <p data-height="335" data-theme-id="17874" data-slug-hash="YXMbQQ" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/YXMbQQ/'>Form Include</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
