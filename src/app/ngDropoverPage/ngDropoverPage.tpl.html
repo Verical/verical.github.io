@@ -29,12 +29,12 @@
         <h3>Here are all the options currently supported...</h3>
         <ul class="options col-sm-7">
             <li>
-                <h2 class="option-title"><code>ngDropoverId</code> [string] (default: $scope.$id)</h2>
+                <h2 class="option-title"><code class="code-title">ngDropoverId</code> [string] (default: $scope.$id)</h2>
                 <div>Example: <code>&lt;div ng-dropover="ngDropoverId"&gt;&lt;div&gt;</code></div>
                 <p>A unique identifier for the dropover. If not defined, it will default to the unique $scope.$id for the isolated directive scope.</p>
             </li>
             <li>
-                <h2 class="option-title"><code>position</code> [string] (default: 'bottom-left')</h2>
+                <h2 class="option-title"><code class="code-title">position</code> [string] (default: 'bottom-left')</h2>
                 <div>Example: <code ng-non-bindable>ng-dropover-options="{'position':'top-center'}"</code></div>
                 <div class="available-positions">
                     <h3>Available Positions</h3>
@@ -42,17 +42,17 @@
                 </div>
             </li>
             <li>
-                <h2 class="option-title"><code>horizontalOffset</code> [integer] (default: 0)</h2>
+                <h2 class="option-title"><code class="code-title">horizontalOffset</code> [integer] (default: 0)</h2>
                 <div>Example: <code ng-non-bindable>ng-dropover-options="{'horizontalOffset':20}"</code></div>
                 <div>Allows you to set a -/+ value in pixels to move the dropover left or right from it's set position.</div>
             </li>
             <li>
-                <h2 class="option-title"><code>verticalOffset</code> [integer] (default: 0)</h2>
+                <h2 class="option-title"><code class="code-title">verticalOffset</code> [integer] (default: 0)</h2>
                 <div>Example: <code ng-non-bindable>ng-dropover-options="{'verticalOffset':-10}"</code></div>
                 <div>Allows you to set a -/+ value in pixels to move the dropover up or down from it's set position.</div>
             </li>
             <li>
-                <h2 class="option-title"><code>triggerEvent</code> [string] (default: 'click')</h2>
+                <h2 class="option-title"><code class="code-title">triggerEvent</code> [string] (default: 'click')</h2>
                 <p>The type of event that triggers opening/closing the contents when interacting with the <code>ng-dropover</code> element. The value 'none' is useful when you just want manual events to control the opening and closing.</p>
                 <p>Values:</p>
                 <ul>
@@ -62,15 +62,15 @@
                 </ul>
             </li>
             <li>
-                <h2 class="option-title"><code>closeOnClickOff</code> [boolean] (default: true)</h2>
+                <h2 class="option-title"><code class="code-title">closeOnClickOff</code> [boolean] (default: true)</h2>
                 <p>If true, will close the dropover when clicking anywhere outside of it.</p>
             </li>
             <li>
-                <h3 class="option-title"><code>closeOthersOnOpen</code> [boolean] (default: true)</h3>
+                <h3 class="option-title"><code class="code-title">closeOthersOnOpen</code> [boolean] (default: true)</h3>
                 <p>When true, will close all open dropovers when the dropover is opened. This overrides <code>closeOnClickOff: false</code> for other dropovers.</p>
             </li>
             <li>
-                <h3 class="option-title"><code>groupId</code> [string] (default: '')</h3>
+                <h3 class="option-title"><code class="code-title">groupId</code> [string] (default: '')</h3>
                 <p>This is a string ID so that you have the option group dropovers by some indentifier. This will be added as a class to the dropover contents and passed as the second parameter on the <code>ngDropover.opening</code> and <code>ngDropover.closing</code> events. Useful for defining CSS or hooking into a set of dropover instances.</p>
             </li>
         </ul>
@@ -79,25 +79,25 @@
         <h1 class="title-primary">Classes</h1>
         <ul>
             <li>
-                <h1 class="event-title"><code>ngdo-open</code></h1>
+                <h1 class="event-title"><code class="code-title">ngdo-open</code></h1>
                 <div class="event-info">
                     Added to the directive element when the dropover is open.
                 </div>
             </li>
             <li>
-                <h1 class="event-title"><code>ngdo-contents</code></h1>
+                <h1 class="event-title"><code class="code-title">ngdo-contents</code></h1>
                 <div class="event-info">
                     This is a class that is added on the dropover.
                 </div>
             </li>
             <li>
-                <h1 class="event-title"><code>ngdo-<i>position</i></code></h1>
+                <h1 class="event-title"><code class="code-title">ngdo-<i>position</i></code></h1>
                 <div class="event-info">
                     Added to the directive element based on the 'position' option value.
                 </div>
             </li>
             <li>
-                <h1 class="event-title"><code>ngdo-<i>groupId</i></code></h1>
+                <h1 class="event-title"><code class="code-title">ngdo-<i>groupId</i></code></h1>
                 <div class="event-info">
                     Added to the directive element based on the 'groupId' option value.
                 </div>
@@ -108,7 +108,7 @@
             <div>ngDropover is event-based, and many of those events you can send or listen for to give you greater flexibility in your application. Here are all the events and how to use them.</div>
             <ul>
                 <li>
-                    <h1 class="event-title"><code>ngDropover.open</code></h1>
+                    <h1 class="event-title"><code class="code-title">ngDropover.open</code></h1>
                     <div class="event-info">
                         <div>params: required [string] ngDropoverId</div>
                         <div>example: <code>$rootScope.$emit('ngDropover.open', 'myDropover')</code></div>
@@ -116,7 +116,7 @@
                     </div>
                 </li>
                 <li>
-                    <h1 class="event-title"><code>ngDropover.close</code></h1>
+                    <h1 class="event-title"><code class="code-title">ngDropover.close</code></h1>
                     <div class="event-info">
                         <div>params: required [string] ngDropoverId</div>
                         <div>example: <code>$rootScope.$emit('ngDropover.close', 'myDropover')</code></div>
@@ -124,7 +124,7 @@
                     </div>
                 </li>
                 <li>
-                    <h1 class="event-title"><code>ngDropover.toggle</code></h1>
+                    <h1 class="event-title"><code class="code-title">ngDropover.toggle</code></h1>
                     <div class="event-info">
                         <div>params: required [string] ngDropoverId</div>
                         <div>example: <code>$rootScope.$emit('ngDropover.toggle', 'myDropover')</code></div>
@@ -132,7 +132,7 @@
                     </div>
                 </li>
                 <li>
-                    <h1 class="event-title"><code>ngDropover.closeAll</code></h1>
+                    <h1 class="event-title"><code class="code-title">ngDropover.closeAll</code></h1>
                     <div class="event-info">
                         <div>params: optional [object] ngDropoverId</div>
                         <div>example: <code>$rootScope.$emit('ngDropover.open', { ngDropoverId: 'myDropover' })</code></div>
@@ -140,7 +140,7 @@
                     </div>
                 </li>
                 <li>
-                    <h1 class="event-title"><code>ngDropover.opening</code></h1>
+                    <h1 class="event-title"><code class="code-title">ngDropover.opening</code></h1>
                     <div class="event-info">
                         <div>params: event, [object]</div>
                         <div>example:</div>
@@ -158,7 +158,7 @@
                     </div>
                 </li>
                 <li>
-                    <h1 class="event-title"><code>ngDropover.closing</code></h1>
+                    <h1 class="event-title"><code class="code-title">ngDropover.closing</code></h1>
                     <div class="event-info">
                         <div>params: event, [object]</div>
                         <div>example:</div>
@@ -321,36 +321,37 @@
         <h1 class="example-title">Using Events</h1>
         <div class="col-sm-5">
             <p>It's easy to control dropovers remotely using events. This gives you the flexibility to open and close for more advanced triggers and situations.</p>
-            <ul>
+            <ul class="events-list">
                 <li>
-                    <code>ngDropover.open</code>
+                    <code class="code-title">ngDropover.open</code>
                     <p>Opens a dropover specified by it's unique ID</p>
                     <code class="code-block">
                         $scope.$emit('ngDropover.open', 'myDropover');
                     </code>
                 </li>
                 <li>
-                    <code>ngDropover.close</code>
+                    <code class="code-title">ngDropover.close</code>
                     <p>Closes a dropover specified by it's unique ID</p>
                     <code class="code-block">
                         $scope.$emit('ngDropover.close', 'myDropover');
                     </code>
                 </li>
                 <li>
-                    <code>ngDropover.toggle</code>
+                    <code class="code-title">ngDropover.toggle</code>
                     <p>Toggles a dropover open/closed, specified by it's unique ID</p>
                     <code class="code-block">
                         $scope.$emit('ngDropover.toggle', 'myDropover');
                     </code>
                 </li>
                 <li>
-                    <code>ngDropover.closeAll</code>
+                    <code class="code-title">ngDropover.closeAll</code>
                     <p>Closes all dropover instances, optionally leaves open one dropover specified by it's unique ID. Note, this optional dropover id must be passed as an object literal with the property name <code>ngDropoverId</code> instead of a string</p>
-                    <p>Close all:</p>
+                    <p><strong>Close all</strong></p>
                     <code class="code-block">
                         $scope.$emit('ngDropover.closeAll');
                     </code>
-                    <p>Close all but 'myDropover'</p>
+                    <br>
+                    <p><strong>Close all but 'myDropover'</strong></p>
                     <code class="code-block">
                         $scope.$emit('ngDropover.closeAll', { ngDropoverId: 'myDropover' });
                     </code>
@@ -361,7 +362,7 @@
             <p data-height="364" data-theme-id="17874" data-slug-hash="Nqmmav" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/Nqmmav/'>Nqmmav</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
         </div>
     </div>
-    <div class="row">
+   <!--  <div class="row">
         <h1 class="example-title">Form Include</h1>
         <div class="col-sm-5">
             XXXXXX
@@ -370,7 +371,7 @@
         <div class="col-sm-7">
             <p data-height="335" data-theme-id="17874" data-slug-hash="YXMbQQ" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/YXMbQQ/'>Form Include</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
         </div>
-    </div>
+    </div> -->
     <div class="row">
         <h1 class="example-title">Navbar with nested dropovers</h1>
         <div class="col-sm-5">

@@ -39,9 +39,15 @@ code {
     font-family: Consolas, 'Liberation Mono', Courier, monospace;
     padding-top: 4px;
     padding-bottom: 4px;
+    font-size: 13px;
 }
 
-code i{
+code.code-title {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+code i {
     font-family: Consolas, 'Liberation Mono', Courier, monospace;
     font-style: italic;
 }
@@ -58,13 +64,16 @@ code i{
 }
 
 .code-block {
-    display:block;
+    display: block;
     padding: 0 50px;
     text-indent: -40px;
 }
-.code-block .last-line, .code-iblock :last-child {
+
+.code-block .last-line,
+.code-iblock:last-child {
     margin-left: -40px;
 }
+
 .code-iblock {
     display: inline-block;
     padding: 5px 20px 5px 60px;
@@ -122,6 +131,7 @@ form .checkbox .control-label {
 .imagination {
     font-size: 24px;
 }
+
 .imagination img {
     width: 50px;
     max-width: 100%;
@@ -171,7 +181,6 @@ form .checkbox .control-label {
     text-align: center;
 }
 
-
 table {
     border-collapse: collapse;
     border: 1px solid #B9B2F4;
@@ -190,9 +199,9 @@ td.shadow-center {
 }
 
 .shadow-fun .ngdo-contents {
-   padding: 5px;
-   width: 80px;
-   height: 80px;
+    padding: 5px;
+    width: 80px;
+    height: 80px;
 }
 
 .shadow-fun.ngdo-bottom-left .ngdo-contents {
@@ -243,14 +252,14 @@ td.shadow-center {
     box-shadow: 40px -40px 5px 8px rgba(0, 0, 0, 0.75);
 }
 
-.section-options {
-    
-}
+.section-options {}
 
 .options > li {
     margin-top: 40px;
 }
-.option-title, .event-title {
+
+.option-title,
+.event-title {
     font-size: 20px;
 }
 
@@ -263,8 +272,12 @@ td.shadow-center {
     margin-top: 20px;
     margin-bottom: 10px;
 }
+
 .available-positions img {
     max-width: 100%;
     width: 100%;
 }
 
+.events-list li {
+    margin: 20px 0px;
+}
