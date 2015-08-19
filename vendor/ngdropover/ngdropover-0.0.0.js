@@ -194,7 +194,8 @@
                             options: scope.config,
                             id: scope.ngDropoverId,
                             children: elm[0].querySelectorAll('[ng-dropover]'),
-                            element: elm
+                            element: elm,
+                            dropoverContents: dropoverContents,
                         };
                     };
 
