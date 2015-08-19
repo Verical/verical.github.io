@@ -268,14 +268,23 @@ td.shadow-center {
 }
 
 .available-positions {
-    text-align: center;
     margin-top: 20px;
     margin-bottom: 10px;
 }
 
-.available-positions img {
-    max-width: 100%;
+.position-small {
+    max-width: 300px;
     width: 100%;
+}
+
+.position-large {
+    max-width: 600px;
+    width: 600px;
+}
+
+.click-label {
+    font-size: 12px;
+
 }
 
 .events-list li {

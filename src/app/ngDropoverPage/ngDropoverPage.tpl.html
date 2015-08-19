@@ -57,8 +57,8 @@
                 <h2 class="option-title"><code class="code-title">position</code> [string] (default: 'bottom-left')</h2>
                 <div>Example: <code ng-non-bindable>ng-dropover-options="{'position':'top-center'}"</code></div>
                 <div class="available-positions">
-                    <h3>Available Positions</h3>
-                    <img src="assets/img/positioning.png">
+                    <div class="click-label">click to expand</div>
+                   <img class="position-small" src="assets/img/positioning.png" ng-click="enlargeImg = !enlargeImg" ng-class="{'position-large' : enlargeImg}">
                 </div>
             </li>
             <li>
