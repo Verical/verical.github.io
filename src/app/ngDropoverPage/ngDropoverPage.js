@@ -20,7 +20,6 @@ angular.module('verical.ngDropoverPage', ['ui.router'])
     $scope.exampleOptions = {
         'horizontalOffset': 0,
         'verticalOffset': 0,
-        'closeOthersOnOpen': false,
         'trigger': "",
         'triggerEvent': "click",
         'position': "bottom-left",

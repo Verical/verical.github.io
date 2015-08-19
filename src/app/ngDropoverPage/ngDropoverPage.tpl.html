@@ -58,7 +58,7 @@
                 <div>Example: <code ng-non-bindable>ng-dropover-options="{'position':'top-center'}"</code></div>
                 <div class="available-positions">
                     <div class="click-label">click to expand</div>
-                   <img class="position-small" src="assets/img/positioning.png" ng-click="enlargeImg = !enlargeImg" ng-class="{'position-large' : enlargeImg}">
+                    <img class="position-small" src="assets/img/positioning.png" ng-click="enlargeImg = !enlargeImg" ng-class="{'position-large' : enlargeImg}">
                 </div>
             </li>
             <li>
@@ -84,10 +84,6 @@
             <li>
                 <h2 class="option-title"><code class="code-title">closeOnClickOff</code> [boolean] (default: true)</h2>
                 <p>If true, will close the dropover when clicking anywhere outside of it.</p>
-            </li>
-            <li>
-                <h3 class="option-title"><code class="code-title">closeOthersOnOpen</code> [boolean] (default: true)</h3>
-                <p>When true, will close all open dropovers when the dropover is opened. This overrides <code>closeOnClickOff: false</code> for other dropovers.</p>
             </li>
             <li>
                 <h3 class="option-title"><code class="code-title">groupId</code> [string] (default: '')</h3>
@@ -251,15 +247,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <div>
-                        <div class="checkbox">
-                            <label class="control-label">
-                                <input type="checkbox" ng-model="exampleOptions.closeOnOpen">Close all others on open
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
                     <label class="control-label">Trigger Event:</label>
                     <div>
                         <select ng-model="exampleOptions.triggerEvent" class="form-control">
@@ -289,8 +276,7 @@
                     <br> 'position': {{exampleOptions.position}},
                     <br> 'horizontalOffset': {{exampleOptions.offsetX}},
                     <br> 'verticalOffset': {{exampleOptions.offsetY}},
-                    <br> 'closeOthersOnOpen': {{exampleOptions.closeOthersOnOpen}},
-                     <br> 'closeOnClickOff': {{exampleOptions.closeOnClickOff}},
+                    <br> 'closeOnClickOff': {{exampleOptions.closeOnClickOff}},
                     <br> 'triggerEvent': {{exampleOptions.triggerEvent}},
                     <br> };
                 </code>
