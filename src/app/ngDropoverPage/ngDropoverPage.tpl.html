@@ -1,24 +1,4 @@
 <div>
-    <div ng-dropover>
-        <button class="regular-button">Basic Click</button>
-        <div ng-dropover-contents>
-            <div>
-                <div ng-dropover>
-                    <button class="regular-button">Basic Click</button>
-                    <div ng-dropover-contents>
-                        <div>
-                            <div ng-dropover>
-                                <button class="regular-button">Basic Click</button>
-                                <div ng-dropover-contents>
-                                    <div>Any content at all!</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="content-top row">
         <div class="col-sm-6">
             <div class="centering">
@@ -33,14 +13,27 @@
     </div>
     <div class="row">
         <h1 class="title-primary">Introduction</h1>
-        <div class="intro">
-            <div>Dropover - noun 1. A hovering DOM element who's inclusion into the visible realm can be toggled.</div>
-            <div>ngDropover is a feature-rich solution for dropdowns, popovers, tooltips, or any other time you need a trigger or triggers to hide-show an element.</div>
-            <div class="imagination">The only dependency is AngularJS and your imaaaaggginaaaaationnnnnn!<img src="assets/img/rainbow.png"></div>
-            <li>Open and close the dropover programmatically</li>
-            <li>Easily create multiple triggers</li>
-            <li>Close dropover when clicking outside directive EVENTS! EXAMPLE</li>
-            <li>Close other dropovers when opening</li>
+        <div class="main-desc">ngDropover is a feature-rich, event-driven solution for dropdowns, popovers, tooltips, or any other time you need a trigger or triggers to hide-show elements.</div>
+        <div class="imagination">The only dependency is AngularJS and your imaaaaggginaaaaationnnnnn!<img src="assets/img/rainbow.png"></div>
+        <div class="col-sm-6">
+
+            <div class="intro">
+                <!-- <div>Dropover - noun 1. A hovering DOM element who's inclusion into the visible realm can be toggled.</div> -->
+                
+                
+                <li>Open and close the dropover programmatically with events</li>
+                <li>Easily create multiple triggers</li>
+                <li>Close dropover when clicking outside directive</li>
+                <li>Close other dropovers when opening</li>
+            </div>
+        </div>
+        <div class="top-sample col-sm-6">
+            <div class="ngdo" ng-dropover ng-dropover-options="{'position':'bottom-center','triggerEvent':'hover'}">
+                <button class="regular-button">Hover Over Me!</button>
+                <div ng-dropover-contents>
+                Dropover contents can be plain HTML, an ng-include, or another directive...even another ngDropover!
+                </div>
+            </div>
         </div>
     </div>
     <div class="row section-options">
@@ -95,6 +88,11 @@
         <h1 class="title-primary">Classes</h1>
         <ul>
             <li>
+                <h1 class="event-title"><code class="code-title">ngdo</code></h1>
+                <div class="event-info">
+                    Added to the directive element.
+                </div>
+            </li><li>
                 <h1 class="event-title"><code class="code-title">ngdo-open</code></h1>
                 <div class="event-info">
                     Added to the directive element when the dropover is open.
@@ -263,9 +261,8 @@
                 <div class="dropover-container">
                     <div ng-dropover="playground1" class="playground-dropover" ng-dropover-options="{{exampleOptions}}">
                         <button class="regular-button">This is Target 1</button>
-                        <div class="dropover" ng-dropover-contents>
-                            <div>Dropover</div>
-                            <div>Contents</div>
+                        <div ng-dropover-contents>
+                            <div>Any content at all!</div>
                         </div>
                     </div>
                 </div>

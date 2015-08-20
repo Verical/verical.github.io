@@ -58,6 +58,11 @@ code i {
     margin-top: 40px;
 }
 
+.main-desc{
+    font-size: 24px;
+    font-weight: 600;
+}
+
 .example-title {
     border-bottom: 1px dotted #333;
     font-size: 22px;
@@ -92,6 +97,31 @@ code i {
     text-align: center;
     font-weight: 500;
     cursor: pointer;
+}
+
+.ngdo-contents {
+  border: 1px solid #d14b2d;
+  border-radius: 10px;
+  background-color: #fbf4e1;
+  padding: 20px;
+  box-shadow: 0px 5px 6px #888888;
+  text-align: left;
+}
+
+.top-sample {
+    text-align: center;
+    padding-top: 40px;
+}
+
+
+.top-sample button {
+    height: 60px;
+    font-size: 24px;
+}
+
+
+.top-sample .ngdo {
+    display: inline-block;
 }
 
 form {}
@@ -154,7 +184,7 @@ form .checkbox .control-label {
 }
 
 .playground-result .dropover-container {
-    margin-top: 100px;
+    margin-top: 70px;
 }
 
 .playground-result .options-object {
