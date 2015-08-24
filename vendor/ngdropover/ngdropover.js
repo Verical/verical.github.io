@@ -1,10 +1,4 @@
-/**
- * ngdropover v0.0.0 - 2015-08-20
- * A custom angular directive to handle dropdowns and popovers with custom content
- *
- * Copyright (c) 2015 Ricky Sandoval <ricky.sandoval92@gmail.com> and Tony Smith <tony@naptown.com>
- * Licensed MIT
- */
+/* global angular */
 (function(window, document) {
     'use strict';
 
@@ -28,14 +22,21 @@
                     event.preventDefault();
                 }
                 if (event.which !== 3) {
-                    $rootScope.$emit("ngDropover.closeAll", { fromDocument: true, ngDropoverId: getIds(event.target)} );
+                    $rootScope.$emit("ngDropover.documentClick", {
+                        fromDocument: true,
+                        ngDropoverId: getIds(event.target)
+                    });
                 }
             });
+
             function getIds(element) {
                 var ids = '';
                 while (element != document) {
-                    if (element.attributes.getNamedItem('ng-dropover')){
+                    if (element.attributes.getNamedItem('ng-dropover')) {
                         ids += element.attributes.getNamedItem('ng-dropover').nodeValue + ',_,';
+                    }
+                    if (element.attributes.getNamedItem('ng-dropover-trigger')) {
+                        ids += ($rootScope.$eval(element.attributes.getNamedItem('ng-dropover-trigger').nodeValue).targetId || '') + ',_,';
                     }
                     element = element.parentNode;
                 }
@@ -128,8 +129,6 @@
                 console.log("");
             }
 
-            var allDropovers = [];
-
             var delimeter = ',_,';
 
             return {
@@ -174,6 +173,7 @@
                                 }
                             }
                         }
+
                         function fromContents(e) {
                             var element = e.target;
 
@@ -198,14 +198,12 @@
                             setTriggers();
                             positionContents();
                             setPositionClass();
-                            updateDropoverArray();
                         }, true);
 
                         $document.ready(function() {
                             positionContents();
                         });
                     }
-
 
                     function setHtml() {
                         elm.addClass(scope.config.groupId + " ngdo");
@@ -304,20 +302,6 @@
                         elm.addClass('ngdo-' + scope.config.position);
                     }
 
-                    function updateDropoverArray(remove) {
-                        var dropoverObjIndex = allDropovers.indexOf(scope.dropoverObj);
-                        if (!remove) {
-                            if (dropoverObjIndex == -1) {
-                                allDropovers.push(scope.dropoverObj);
-                            } else {
-                                setDropoverObj();
-                                allDropovers[dropoverObjIndex] = scope.dropoverObj;
-                            }
-                        } else {
-                            allDropovers.splice(dropoverObjIndex, 1);
-                        }
-                    }
-
                     function getDropoverContents() {
                         var ret;
                         if (elm[0].querySelector('[ng-dropover-contents]')) {
@@ -331,7 +315,6 @@
                         }
                     }
 
-                    //ToDo: Detect previous display value
                     scope.open = function(ngDropoverId) {
                         if (transition.event) {
                             dropoverContents[0].removeEventListener(transition.event, transition.handler);
@@ -366,8 +349,8 @@
                         }
                     };
 
-                    scope.closeAll = function() {
-                        if (scope.isOpen) {
+                    scope.closeAll = function(ngDropoverId) {
+                        if (scope.isOpen && ngDropoverId !== scope.ngDropoverId) {
                             closer();
                         }
                     };
@@ -418,7 +401,6 @@
                     scope.$on('$destroy', function() {
                         unsetTriggers();
                         angular.element($window).unbind('resize', positionContents);
-                        updateDropoverArray(true);
                     });
 
                 },
@@ -427,6 +409,7 @@
                     function($scope, $element, $attrs) {
 
                         $scope.isOpen = false;
+
                         $scope.ngDropoverId = $scope.target || ('' + $scope.$id);
 
                         //set up event listeners
@@ -442,7 +425,11 @@
                             $scope.isOpen ? $scope.close(ngDropoverId) : $scope.open(ngDropoverId);
                         });
 
-                        $scope.closeAllListener = $rootScope.$on('ngDropover.closeAll', function(event, info) {
+                        $scope.closeAllListener = $rootScope.$on('ngDropover.closeAll', function(event, ngDropoverId) {
+                            $scope.closeAll(ngDropoverId);
+                        });
+
+                        $scope.documentClickListener = $rootScope.$on('ngDropover.documentClick', function(event, info) {
                             if ((!info.ngDropoverId || (info.ngDropoverId).split(delimeter).indexOf($scope.ngDropoverId) < 0) && !(!$scope.config.closeOnClickOff && info.fromDocument)) {
                                 // Unless closeOnClickOff is false and the event was from the document listener
                                 $scope.closeAll();
@@ -454,10 +441,12 @@
                             $scope.openListener = null;
                             $scope.closeListener();
                             $scope.closeListener = null;
-                            $scope.closeAllListener();
-                            $scope.closeAllListener = null;
                             $scope.toggleListener();
                             scope.toggleListener = null;
+                            $scope.closeAllListener();
+                            $scope.closeAllListener = null;
+                            $scope.documentClickListener();
+                            $scope.documentClickListener = null;
                         });
                     }
                 ]
@@ -616,6 +605,51 @@
                             break;
                     }
                     return targetElPos;
+                }
+            };
+        }])
+        .directive('ngDropoverTrigger', ['$rootScope', '$document', 'triggerEventsMap', function($rootScope, $document, triggerEventsMap) {
+            return {
+                restrict: 'AE',
+                scope: {
+                    triggerOptions: '@ngDropoverTrigger'
+                },
+                link: function(scope, element, attrs) {
+                    var options = scope.$eval(scope.triggerOptions);
+
+                    var triggerObj = triggerEventsMap.getTriggers(options.triggerEvent || 'click');
+                    element.addClass('ng-dropover-trigger');
+
+                    if (options.action === "open" || options.action === "close") {
+
+                        element.on("touchstart click", function(event) {
+                            if (event.type === 'touchstart') {
+                                event.preventDefault();
+                            }
+                            scope.$emit('ngDropover.' + options.action, options.targetId);
+                        });
+
+                        element.on(triggerObj.show, function(event) {
+                            if (event.type === 'touchstart') {
+                                event.preventDefault();
+                            }
+                            scope.$emit('ngDropover.' + options.action, options.targetId);
+                        });
+                    } else {
+                        if (triggerObj.show === triggerObj.hide) {
+                            element.on(triggerObj.show, function(event) {
+                                scope.$emit('ngDropover.toggle', options.targetId);
+                            });
+                        } else {
+                            element.on(triggerObj.show, function(event) {
+                                scope.$emit('ngDropover.open', options.targetId);
+                            });
+
+                            element.on(triggerObj.hide, function(event) {
+                                scope.$emit('ngDropover.close', options.targetId);
+                            });
+                        }
+                    }
                 }
             };
         }]);
