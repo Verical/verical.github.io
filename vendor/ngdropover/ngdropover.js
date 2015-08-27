@@ -168,12 +168,12 @@
                                 }
                             },
                             open: function(event) {
-                                if (!scope.isOpen) {
+                                if (!fromContents(event) && !scope.isOpen) {
                                     scope.open(scope.ngDropoverId);
                                 }
                             },
                             close: function(event) {
-                                if (scope.isOpen) {
+                                if (!fromContents(event) && scope.isOpen) {
                                     scope.close(scope.ngDropoverId);
                                 }
                             }
@@ -257,6 +257,7 @@
                             if (triggerObj.show === triggerObj.hide) {
                                 elm.on(triggerObj.show, handlers.toggle);
                             } else {
+                                elm.on('touchend', handlers.toggle);
                                 elm.on(triggerObj.show, handlers.open);
                                 elm.on(triggerObj.hide, handlers.close);
                             }
@@ -264,17 +265,16 @@
                     }
 
                     function unsetTriggers() {
-                        if (triggerElements && triggerElements.length > 0) {
-                            var triggerObj = triggerEventsMap.getTriggers(scope.config.triggerEvent);
-                            for (var i = 0; i < triggerElements.length; i++) {
-                                var el = angular.element(triggerElements[i]);
-                                if (triggerObj.show === triggerObj.hide) {
-                                    el.off(triggerObj.show, handlers.toggle);
-                                } else {
-                                    el.off(triggerObj.show, handlers.open);
-                                    el.off(triggerObj.hide, handlers.close);
-                                }
-                            }
+                        var triggerObj = triggerEventsMap.getTriggers(scope.config.triggerEvent);
+                        if (!triggerObj) {
+                            return;
+                        }
+                        if (triggerObj.show === triggerObj.hide) {
+                            elm.off(triggerObj.show, handlers.toggle);
+                        } else {
+                            elm.off('touchend', handlers.toggle);
+                            elm.off(triggerObj.show, handlers.open);
+                            elm.off(triggerObj.hide, handlers.close);
                         }
                     }
 
@@ -634,8 +634,11 @@
                     var triggerObj = triggerEventsMap.getTriggers(options.triggerEvent || 'click');
                     element.addClass('ng-dropover-trigger');
 
-                    if (options.action === "open" || options.action === "close") {
-                        element.on(triggerObj.show, function(event) {
+                    var handlers = {
+                        action: function(e){
+                            scope.$emit('ngDropover.' + options.action, options.targetId);
+                        },
+                        toggle: function(e){
                             if (event.type === 'touchend') {
                                 event.preventDefault();
                                 if ($rootScope.scrolling) {
@@ -643,30 +646,55 @@
                                     return;
                                 }
                             }
-                            scope.$emit('ngDropover.' + options.action, options.targetId);
-                        });
+                            scope.$emit('ngDropover.toggle', options.targetId);
+                        },
+                        show: function(e){
+                            scope.$emit('ngDropover.open', options.targetId);
+                        },
+                        hide: function(e){
+                            scope.$emit('ngDropover.close', options.targetId);
+                        },
+                        touch: function(e){
+                            event.preventDefault();
+                            if ($rootScope.scrolling) {
+                                $rootScope.scrolling = false;
+                                return;
+                            }
+                            scope.$emit('ngDropover.' + (options.action || 'toggle'), options.targetId);
+                        }
+                    };
+
+                    if (options.action === "open" || options.action === "close") {
+                        element.on(triggerObj.show, handlers.action);
                     } else {
                         if (triggerObj.show === triggerObj.hide) {
-                            element.on(triggerObj.show, function(event) {
-                                if (event.type === 'touchend') {
-                                    event.preventDefault();
-                                    if ($rootScope.scrolling) {
-                                        $rootScope.scrolling = false;
-                                        return;
-                                    }
-                                }
-                                scope.$emit('ngDropover.toggle', options.targetId);
-                            });
+                            element.on(triggerObj.show, handlers.toggle);
                         } else {
-                            element.on(triggerObj.show, function(event) {
-                                scope.$emit('ngDropover.open', options.targetId);
-                            });
+                            element.on(triggerObj.show, handlers.show);
 
-                            element.on(triggerObj.hide, function(event) {
-                                scope.$emit('ngDropover.close', options.targetId);
-                            });
+                            element.on(triggerObj.hide, handlers.hide);
                         }
                     }
+                    if (options.triggerEvent === 'hover') {
+                        element.on('touchend', handlers.touch);
+                    }
+
+                    scope.$on('destroy', function(){
+                        if (options.action === "open" || options.action === "close") {
+                            element.off(triggerObj.show, handlers.action);
+                        } else {
+                            if (triggerObj.show === triggerObj.hide) {
+                                element.off(triggerObj.show, handlers.toggle);
+                            } else {
+                                element.off(triggerObj.show, handlers.show);
+
+                                element.off(triggerObj.hide, handlers.hide);
+                            }
+                        }
+                        if (options.triggerEvent === 'hover') {
+                            element.off('touchend', handlers.touch);
+                        }
+                    });
                 }
             };
         }]);
