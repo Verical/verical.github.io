@@ -11,20 +11,16 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="top-page row">
         <h1 class="title-primary">Introduction</h1>
-        <div class="main-desc">ngDropover is a feature-rich, event-driven solution for dropdowns, popovers, tooltips, or any other time you need a trigger or triggers to hide-show elements.</div>
-        <div class="imagination">The only dependency is AngularJS and your imaaaaggginaaaaationnnnnn!<img src="assets/img/rainbow.png"></div>
+        <div class="definition">"Dropover" - noun 1. A hovering DOM element who's inclusion into the visible realm can be programmatically toggled.</div>
+        <div class="main-desc"><b>ngDropover</b> is a feature-rich, event-driven solution for dropdowns, popovers, tooltips, or any other time you need a trigger or triggers to hide-show elements. The only dependency is AngularJS and your imaaginaaaationnnn!</div>
         <div class="col-sm-6">
-
             <div class="intro">
-                <!-- <div>Dropover - noun 1. A hovering DOM element who's inclusion into the visible realm can be toggled.</div> -->
-                
-                
                 <li>Open and close the dropover programmatically with events</li>
+                <li>Built in touch support</li>
                 <li>Easily create multiple triggers</li>
                 <li>Close dropover when clicking outside directive</li>
-                <li>Close other dropovers when opening</li>
             </div>
         </div>
         <div class="top-sample col-sm-6">
@@ -70,7 +66,7 @@
                 <p>Values:</p>
                 <ul>
                     <li><code>click</code> - results in <code>touchstart click</code> for both open and close</li>
-                    <li><code>hover</code> - results in <code>mouseenter : mouseleave</code></li>
+                    <li><code>hover</code> - results in <code>mouseenter : mouseleave</code> and will also toggle on touch</li>
                     <li><code>none</code> - no interaction with the <code>ng-droopover</code> element will trigger open/close</li>
                 </ul>
             </li>
@@ -81,6 +77,38 @@
             <li>
                 <h3 class="option-title"><code class="code-title">groupId</code> [string] (default: '')</h3>
                 <p>This is a string ID so that you have the option group dropovers by some indentifier. This will be added as a class to the dropover contents and passed as the second parameter on the <code>ngDropover.opening</code> and <code>ngDropover.closing</code> events. Useful for defining CSS or hooking into a set of dropover instances.</p>
+            </li>
+        </ul>
+    </div>
+    <div class="row section-options">
+        <h1 class="title-primary">ngDropoverTrigger</h1>
+        <div>We have included a helper directive to trigger directives remotely. You interact with it the same as the normal ngDropover instance, and it acts on the dropover of your choice. Use it like this:</div>
+        <div><code>&lt;div ng-dropover-trigger="{targetId: 'myDropover'}" &gt;&lt;div&gt;</code></div>
+        <h1 class="example-title">Options</h1>
+        <ul class="">
+            <li>
+                <h3 class="option-title"><code class="code-title">targetId</code> required [string] (default: '')</h3>
+                <p>The ngDropoverId of the dropover instance to trigger</p>
+            </li>
+            <li>
+                <h3 class="option-title"><code class="code-title">triggerEvent</code> optional [string] (default: 'click')</h3>
+                <p>The type of event that triggers the action.</p>
+                <p>Values:</p>
+                <ul>
+                    <li><code>click</code> - results in <code>touchstart click</code> for both open and close</li>
+                    <li><code>hover</code> - results in <code>mouseenter : mouseleave</code> and will also toggle on touch</li>
+                </ul>
+                <p></p>
+            </li>
+            <li>
+                <h3 class="option-title"><code class="code-title">action</code> optional [string] (default: 'toggle')</h3>
+                <p>The action that the trigger performs on the specified dropover</p>
+                <p>values:</p>
+                <ul>
+                    <li><code>toggle</code> - opens and closes with interaction</li>
+                    <li><code>open</code> - opens with the specified action but does not trigger a close</li>
+                    <li><code>close</code> - closes with the specified action but does not trigger an open</li>
+                </ul>
             </li>
         </ul>
     </div>
@@ -116,10 +144,17 @@
                     Added to the directive element based on the 'groupId' option value.
                 </div>
             </li>
+            <li>
+                <h1 class="event-title"><code class="code-title">ngdo-trigger</code></h1>
+                <div class="event-info">
+                    Added to the directive element of an ngDropoverTrigger directive.
+                </div>
+            </li>
         </ul>
         <div class="row-sm-8">
             <h1 class="title-primary">Events</h1>
-            <div>ngDropover is event-based, and many of those events you can send or listen for to give you greater flexibility in your application. Here are all the events and how to use them.</div>
+            <p>ngDropover is event-based, and many of those events you can send or listen for to give you greater flexibility in your application. Here are all the events and how to use them.</p>
+            <p>*NOTE: we highly recommend using the ngDropoverTrigger directive when applicable to avoid problems with closeOnClickOff</p>
             <ul>
                 <li>
                     <h1 class="event-title"><code class="code-title">ngDropover.open</code></h1>
@@ -156,7 +191,7 @@
                 <li>
                     <h1 class="event-title"><code class="code-title">ngDropover.opening</code></h1>
                     <div class="event-info">
-                        <div>params: event, [object]</div>
+                        <div>params: [function] callback( event, dropObj )</div>
                         <div>example:</div>
                         <code class="code-iblock">
                             $rootScope.$on('ngDropover.opening', function(event, dropObj) {<br>
@@ -174,7 +209,7 @@
                 <li>
                     <h1 class="event-title"><code class="code-title">ngDropover.closing</code></h1>
                     <div class="event-info">
-                        <div>params: event, [object]</div>
+                        <div>params: [function] callback( event, dropObj )</div>
                         <div>example:</div>
                         <code class="code-iblock">
                             $rootScope.$on('ngDropover.closing', function(event, dropObj) {<br>
@@ -323,8 +358,19 @@
     <div class="row">
         <h1 class="example-title">Using Events</h1>
         <div class="col-sm-5">
-            <p>It's easy to control dropovers remotely using events. This gives you the flexibility to open and close for more advanced triggers and situations. Notice how both dropovers are showing on the different directives. This is because they were both given the id of "myDropover" (<code ng-non-bindable>&lt;div ng-dropover="myDropover"...&gt;</code>). If you are going to give your ngDropovers an id manually, be sure to give unique ids if you don't want this behavior.</p>
-            <ul class="events-list">
+            <p>It's easy to control dropovers remotely using the supplied ngDropoverTrigger directive or events. This gives you the flexibility to open and close for more advanced triggers and situations. Also, note how both dropovers are showing on the different directives. This is because they were both given the id of "myDropover" (<code ng-non-bindable>&lt;div ng-dropover="myDropover"...&gt;</code>). Be sure to give unique ids if you don't want this behavior.</p>
+
+  <!--           <code>&lt;div ng-dropover-trigger="{'triggerEvent':'click', 'targetId':'myDropover'}" &gt;</code>
+ -->
+            
+            We recommend using the ngDropoverTrigger directive as it implements touch support and handles document clicks, but if you need to programatically interact with a dropover the syntax is as follows:<br>
+
+            <code>$scope.$emit('ngDropover.open', 'myDropover');</code><br>
+
+            See the events section for more info on this.
+            
+
+            <!-- <ul class="events-list">
                 <li>
                     <code class="code-title">ngDropover.open</code>
                     <p>Opens a dropover specified by it's unique ID</p>
@@ -359,26 +405,17 @@
                         $scope.$emit('ngDropover.closeAll', { ngDropoverId: 'myDropover' });
                     </code>
                 </li>
-            </ul>
+            </ul> -->
         </div>
         <div class="col-sm-7">
             <p data-height="364" data-theme-id="17874" data-slug-hash="Nqmmav" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/Nqmmav/'>Nqmmav</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
         </div>
     </div>
-    <!--  <div class="row">
-        <h1 class="example-title">Form Include</h1>
-        <div class="col-sm-5">
-            XXXXXX
-            http://verical.github.io/src/common/formDropover.html
-        </div>
-        <div class="col-sm-7">
-            <p data-height="335" data-theme-id="17874" data-slug-hash="YXMbQQ" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/YXMbQQ/'>Form Include</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
-        </div>
-    </div> -->
     <div class="row">
-        <h1 class="example-title">Navbar with nested dropovers</h1>
+        <h1 class="example-title">ngDropovers nesting in their natural habitat</h1>
         <div class="col-sm-5">
-            Show selected data being passed via event
+            That is right folks, you can nest ngDropovers! In this relatively simple example, we gave a trigger of "hover" to all ngDropovers and made sure to set <code>closeOthersOnOpen</code> to false. We also had to tweak the <code>verticalOffset</code> so that the nested ngDropover aligned better with its parent. In the view's controller, there is a click handler that emits the <code>ngDropover.closeAll</code> event to collapse the all menu levels and sets a model to the selected value. Easy as easy pie!
+
         </div>
         <div class="col-sm-7">
             <p data-height="361" data-theme-id="17874" data-slug-hash="4c94ed7519c87f6e501b123b590a30d4" data-default-tab="result" data-user="verical" class='codepen'>See the Pen <a href='http://codepen.io/verical/pen/4c94ed7519c87f6e501b123b590a30d4/'>Menu Bar</a> by Verical (<a href='http://codepen.io/verical'>@verical</a>) on <a href='http://codepen.io'>CodePen</a>.</p>
