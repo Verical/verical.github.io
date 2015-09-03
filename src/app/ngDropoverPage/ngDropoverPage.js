@@ -15,7 +15,7 @@ angular.module('verical.ngDropoverPage', ['ui.router'])
     });
 }])
 
-.controller('ngDropoverPageCtrl', ["$scope","$window", function ngDropoverPageCtrl($scope, $window) {
+.controller('ngDropoverPageCtrl', ["$scope", "$window", function ngDropoverPageCtrl($scope, $window) {
 
     $scope.exampleOptions = {
         'horizontalOffset': 0,
@@ -30,5 +30,10 @@ angular.module('verical.ngDropoverPage', ['ui.router'])
     $scope.openGithub = function() {
         $window.open('https://github.com/Verical/ngDropover', '_blank');
     };
+
+    $scope.downloadMin = function() {
+        $window.open('http://verical.github.io/vendor/ngdropover/ngdropover.min.js', '_blank');
+    };
+
 
 }]);

@@ -2,7 +2,7 @@
     <div class="content-top row">
         <div class="col-sm-6">
             <div class="centering">
-                <div class="large-button">Download</div>
+                 <div class="large-button" ng-click="downloadMin()">Download</div>
             </div>
         </div>
         <div class="col-sm-6">
@@ -31,6 +31,17 @@
                 </div>
             </div>
         </div>
+    </div>
+     <div class="row">
+        <h1 class="title-primary">Installation</h1>
+        <h2>Install with NPM</h2>
+        <div class="terminal">npm install --save ngdropover</div>
+        <h2>Install with Bower</h2>
+        <div class="terminal">bower install --save ngdropover</div>
+        <h2>Manual Download</h2>
+        <div>Download the lastest version <a  ng-click="downloadMin()">here</a>.</div>
+        <h2>Add it to your app</h2>
+        <div class="terminal">angular.module('myApp', ['ngDropover'])</div>
     </div>
     <div class="row section-options">
         <h1 class="title-primary">Options</h1>
@@ -225,16 +236,6 @@
                 </li>
             </ul>
         </div>
-    </div>
-    <div class="row">
-        <h1 class="title-primary">Installation</h1>
-        <div>XXXX</div>
-        <h2>Install with NPM</h2>
-        <div class="terminal">npm install --save ngdropover</div>
-        <h2>Manual Download</h2>
-        <div>Download the lastest version here.</div>
-        <h2>Add it to your app</h2>
-        <div class="terminal">angular.module('myApp', ['ngDropover'])</div>
     </div>
     <div class="row">
         <h1 class="title-primary">Options Playground</h1>
