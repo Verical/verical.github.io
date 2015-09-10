@@ -16,31 +16,35 @@ angular.module('verical.perf', ['ui.router'])
 }])
 
 .controller('perfCtrl', ["$scope","$window", "$rootScope", function perfCtrl($scope, $window, $rootScope) {
+    var i = 0;
+
     $scope.doOptions1 = {
       closeWhenClickOff: false,
       position: 'bottom',
       triggerEvent: 'none'
     };
-    
-    angular.element(document.querySelector('#hover')).on('mouseover', function() {
-      $scope.$emit('ngDropover.open', 'myDropover');
-    });
 
-    angular.element(document.querySelector('#hover')).on('mouseout', function() {
-        $scope.$emit('ngDropover.close', 'myDropover');
-    });
-    
-    $rootScope.$on('ngDropover.opening', function(event, dropObj) {
-      if(dropObj.options.groupId == 'jqueryGroup'){
-        $(dropObj.dropoverContents).stop().slideDown(); 
-      }
-    });
-        
-    $rootScope.$on('ngDropover.closing', function(event, dropObj) {
-      if(dropObj.options.groupId == 'jqueryGroup'){
-        $(dropObj.dropoverContents).show();
-        $(dropObj.dropoverContents).stop().slideUp();
-      }
-    });
+    $scope.currentIds = {};
+    $scope.removedIds = {};
+
+    $scope.addDropover = function() {
+      var newId = 'ngdo-' + i;
+      $scope.currentIds[newId] = true;
+      i++;
+      console.log($scope.currentIds);
+    };
+
+    $scope.removeDropover = function(id) {
+      delete $scope.currentIds[id];
+      $scope.removedIds[id] = true;
+      console.log($scope.removedIds);
+    };
+
+    $scope.openOld = function() {
+      Object.keys(removedIds).foreach(function(id){
+        console.log('opening: ', id);
+        $scope.$emit('ngDropover.open', id);
+      });
+    };
 
 }]);
