@@ -53,7 +53,7 @@
 
             function getIds(element) {
                 var ids = [];
-                while (element !== document) {
+                while (element && element !== document) {
                     if (element.attributes.getNamedItem('ng-dropover')) {
                         ids.push(element.attributes.getNamedItem('ng-dropover').nodeValue);
                     }
@@ -154,6 +154,7 @@
                         setHtml();
                         handlers = {
                             toggle: function(event) {
+                                console.log('handlers toggle: ' + scope.ngDropoverId);
                                 // This is to check if the event came from inside the directive contents
                                 if (event.type === "touchend") {
                                     event.preventDefault();
@@ -167,11 +168,13 @@
                                 }
                             },
                             open: function(event) {
+                                console.log('handlers open: ' + scope.ngDropoverId);
                                 if (!fromContents(event) && !scope.isOpen) {
                                     scope.open(scope.ngDropoverId);
                                 }
                             },
                             close: function(event) {
+                                console.log('handlers close: ' + scope.ngDropoverId);
                                 if (!fromContents(event) && scope.isOpen) {
                                     scope.close(scope.ngDropoverId);
                                 }
@@ -336,7 +339,6 @@
                             dropoverContents[0].removeEventListener(transition.event, transition.handler);
                         }
                         if (ngDropoverId === scope.ngDropoverId && !scope.isOpen) {
-
                             positionContents();
 
                             //start the display process and fire events
@@ -430,14 +432,17 @@
 
                         //set up event listeners
                         $scope.openListener = $rootScope.$on('ngDropover.open', function(event, ngDropoverId) {
+                            console.log('open listener for :' + $scope.ngDropoverId);
                             $scope.open(ngDropoverId);
                         });
 
                         $scope.closeListener = $rootScope.$on('ngDropover.close', function(event, ngDropoverId) {
+                            console.log('close listener: ' + $scope.ngDropoverId);
                             $scope.close(ngDropoverId);
                         });
 
                         $scope.toggleListener = $rootScope.$on('ngDropover.toggle', function(event, ngDropoverId) {
+                            console.log('toggle listener: ' + $scope.ngDropoverId);
                             if (!$scope.isOpen) {
                                 $scope.open(ngDropoverId);
                             } else {

@@ -16,13 +16,14 @@
     	border: 1px solid black;
     }
 </style>
-    <button ng-click="addDropover()">Add new dropover</button>
-    <button ng-click="openOld()">Open Old Dropovers</button>
+    <button ng-click="addDropover()">Add New Dropover</button>
+    <button ng-click="openCurrent($event)">Open Current Dropovers</button>
+    <button ng-click="openOld($event)">Open Old Dropovers</button>
     <div class="dropover-list">
-    	<div ng-repeat="(id, _) in currentIds">
+    	<div ng-repeat="(id, option) in currentIds">
     		<button ng-click="removeDropover(id)">X</button>
-    		<div ng-dropover="{{id}}">
-    			<button>Click me</button>
+    		<div ng-dropover="{{id}}" ng-dropover-options="{{ doOptions[option] }}">
+    			<button>{{id}}</button>
     			<div ng-dropover-contents>
     				Contents
     			</div>
