@@ -282,9 +282,82 @@ td.shadow-center {
     display: inline-block;
 }
 
+.browser-support .version {
+    font-weight: bold;
+    font-size: 32px;
+    display: inline-block;
+    
+    text-shadow: 0px 1px 0px rgba(0, 0, 0, 1);
+}
+
+.browser-support .version.ie {
+    color: #0f74d7;
+}
+
+
+.browser-support .version.ff {
+    color: #e86d18;
+}
+
+
+.browser-support .version.ch {
+    color: #2aa95f;
+}
+
+
+.browser-support .version.sf {
+    color: #26c0e2;
+}
+
+
+.browser-support .version.op {
+    color: #e72d44;
+}
 
 
 
+.browser-support img {
+    max-width: 80px;
+    width: 100%;
+}
+
+
+
+.col-xs-5ths,
+.col-sm-5ths,
+.col-md-5ths,
+.col-lg-5ths {
+    position: relative;
+    min-height: 1px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.col-xs-5ths {
+    width: 20%;
+    float: left;
+}
+
+@media (min-width: 768px) {
+    .col-sm-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 992px) {
+    .col-md-5ths {
+        width: 20%;
+        float: left;
+    }
+}
+
+@media (min-width: 1200px) {
+    .col-lg-5ths {
+        width: 20%;
+        float: left;
+    }
+}
 
 
 
