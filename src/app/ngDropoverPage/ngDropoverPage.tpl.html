@@ -96,6 +96,10 @@
                 <h3 class="option-title"><code class="code-title">groupId</code> [string] (default: '')</h3>
                 <p>This is a string ID so that you have the option group dropovers by some indentifier. This will be added as a class to the dropover contents and passed as the second parameter on the <code>ngDropover.opening</code> and <code>ngDropover.closing</code> events. Useful for defining CSS or hooking into a set of dropover instances.</p>
             </li>
+             <li>
+                <h3 class="option-title"><code class="code-title">staticOptions</code> [boolean] (default: false)</h3>
+                <p>If true, this will make all of these very options only set once and they won't listen to any changes. Basically, skips over the watcher for options so there could be a performance bump.</p>
+            </li>
         </ul>
     </div>
     <div class="row section-options">
