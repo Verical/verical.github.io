@@ -12,5 +12,4 @@ angular.module('verical', ['verical.ngDropoverPage', 'verical.ngdoIE',  'verical
             $scope.pageTitle = toState.data.pageTitle + ' | Verical';
         }
     });
-
 }]);
